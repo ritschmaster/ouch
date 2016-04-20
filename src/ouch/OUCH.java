@@ -38,7 +38,7 @@ public class OUCH {
 	 * @param path - String containing path to file to read
 	 * @returns String array w/ file contents
 	 */
-	String[] parseFile(String path) {
+	public String[] parseFile(String path) {
 		
 		return null;
 	}
@@ -46,7 +46,7 @@ public class OUCH {
 	 * @param path - String containing path to file to write
 	 * @returns true if file successfully written, false if not
 	 */
-	boolean writeFile(String path) {
+	public boolean writeFile(String path) {
 		
 		return true;
 	}
