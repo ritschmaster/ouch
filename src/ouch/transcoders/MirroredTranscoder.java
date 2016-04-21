@@ -22,28 +22,20 @@
 
 package ouch.transcoders;
 
-import java.util.ArrayList;
-
 /**
- * @author Alexander Kopp
+ * @author Alexander Kopp, Richard Paul Bäck
  * 
  * This transcoder mirrors a given text input
  *
  */
-public class MirroredTranscoder extends Transcoder {
+public class MirroredTranscoder implements Transformable {
 
-	@Override
-	public String[] encode(String[] input) {
-		ArrayList<String> output = new ArrayList<String>();
-		for (int i = input.length-1; i >= 0; i--) {
-			output.add(new StringBuilder(input[i]).reverse().toString());
-		}
-		return output.toArray(new String[output.size()]);
+	public String encode(String text) {		
+		return new StringBuilder(text).reverse().toString();		
 	}
 
-	@Override
-	public String[] decode(String[] input) {
-		return encode(input);
+	public String decode(String text) {
+		return encode(text);
 	}
 
 }

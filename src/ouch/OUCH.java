@@ -22,7 +22,7 @@
 
 package ouch;
 
-import ouch.transcoders.Transcoder;
+import ouch.transcoders.Transformable;
 
 /**
  * @author Alexander Kopp
@@ -57,9 +57,11 @@ public class OUCH {
 	 * @param input - input string(s)
 	 * @returns string array containing the encoded text
 	 */
-	public String[] encode(Transcoder t, String[] input) {
-		
-		return t.encode(input);
+	public String[] encode(Transformable t, String[] input) {
+		String[] ret = new String[input.length];
+		for (int i = 0; i < input.length; i++)
+			ret[i] = t.encode(input[i]);
+		return ret;
 	}
 	
 	/**
@@ -67,10 +69,11 @@ public class OUCH {
 	 * @param input - input string(s)
 	 * @returns string array containing the decoded text
 	 */
-	public String[] decode(Transcoder t, String[] input) {
-		
-		
-		return t.decode(input);
+	public String[] decode(Transformable t, String[] input) {
+		String[] ret = new String[input.length];
+		for (int i = 0; i < input.length; i++)
+			ret[i] = t.decode(input[i]);
+		return ret;
 	}
 	
 	//TODO Metrics

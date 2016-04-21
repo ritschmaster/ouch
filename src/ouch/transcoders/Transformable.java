@@ -22,11 +22,11 @@
 
 package ouch.transcoders;
 
-public abstract class Transcoder {
+public interface Transformable {
 	
-	public abstract String[] encode(String[] input);
+	public String encode(String text);
 	
-	public abstract String[] decode(String[] input);
+	public String decode(String text);
 	
 	
 
