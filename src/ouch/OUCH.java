@@ -22,6 +22,12 @@
 
 package ouch;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import ouch.transcoders.Transformable;
 
 /**
@@ -33,24 +39,35 @@ import ouch.transcoders.Transformable;
  */
 public class OUCH {
 	
-	//TODO
 	/**
 	 * @param path - String containing path to file to read
+	 * @throws IOException when no such File or I/O error 
 	 * @returns String array w/ file contents
 	 */
-	public String[] parseFile(String path) {
+	public String[] parseFile(String path) throws IOException {
+
+		ArrayList<String> lines = new ArrayList<String>();	
 		
-		return null;
+		try (BufferedReader reader = new BufferedReader(new FileReader(new File(path)))) {
+			
+			String line;
+			while ((line = reader.readLine()) != null) {
+				lines.add(line);
+			}
+		}String line;
+
+		return lines.toArray(new String[lines.size()]);
 	}
 	/**
 	 * @param path - String containing path to file to write
 	 * @returns true if file successfully written, false if not
 	 */
+	//TODO
 	public boolean writeFile(String path) {
 		
 		return true;
 	}
-	//END TODO
+
 	
 	/**
 	 * @param t - the given transcoder
@@ -77,8 +94,6 @@ public class OUCH {
 	}
 	
 	//TODO Metrics
-	
-	
 	
 	
 	
