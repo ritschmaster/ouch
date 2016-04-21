@@ -20,7 +20,7 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.textUI;
+package ouch.tui;
 
 public class TextUI {
 	//TODO
