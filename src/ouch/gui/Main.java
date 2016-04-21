@@ -1,5 +1,9 @@
 /************************************************************************
- * Copyright (C) 2015 Richard Paul Bäck <richard.baeck@free-your-pc.com>
+ * Copyright (C) 2016
+ * Richard Paul Bäck <richard.baeck@free-your-pc.com>
+ * Dominik Koller <kollerdominik@icloud.com>
+ * Alexander Kopp <alexander.kopp@gmx.at>
+ * Zhe Wu <wuzhe1996@gmail.com>
  *
  * This file is part of OUCH.
  *
@@ -20,7 +24,7 @@
 package ouch.Main;
 
 /**
- * @author Richard Paul Bäck
+ * @author Alexander Kopp, Dominik Koller, Zhe Wu, Richard Paul Bäck
  *
  */
 public class Main {
@@ -30,8 +34,6 @@ public class Main {
      */
     public static void main(String[] args) {
         System.out.println("hello world");
-        System.out.println("I am testing my shit");
-
     }
 
 }
