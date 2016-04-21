@@ -54,7 +54,7 @@ public class OUCH {
 			while ((line = reader.readLine()) != null) {
 				lines.add(line);
 			}
-		}String line;
+		}
 
 		return lines.toArray(new String[lines.size()]);
 	}
