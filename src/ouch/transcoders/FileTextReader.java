@@ -22,7 +22,18 @@
 
 package ouch.transcoders;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class FileTextReader implements TextReadable {
+	private String path;
+	
+	public FileTextReader(String path) {
+		this.path = path;
+	}
+	
 
 	public byte[] getNextBytes(int amount) {
 		// TODO Read the file and return a certain amount of bytes
@@ -38,9 +49,21 @@ public class FileTextReader implements TextReadable {
 		// TODO
 	}
 	
-	public String getEntireString() {
-		// TODO Read the entire file into one string (perl slurp)
-		return "";
+	public String getEntireString() {		
+		String ret = "";
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(new File(this.path)));
+			
+			String line;
+			while ((line = reader.readLine()) != null) {
+				ret += line;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return ret;
 	}
 	
 	public Metricable getMetrics() {
