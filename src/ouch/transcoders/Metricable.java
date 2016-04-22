@@ -20,44 +20,8 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.tests.transcoders;
+package ouch.transcoders;
 
-import static org.junit.Assert.*;
+public interface Metricable {
 
-import org.junit.Test;
-
-import ouch.transcoders.Transformable;
-import ouch.transcoders.fun.MirroredTranscoder;
-
-public class MirroredTranscoderTest {
-	public static final String[] DECODED_STRINGS = {
-			"hello world",
-			"AAAABBBAAAA",
-			""
-			//"Some test sentence which is a bit longer than usual."
-	};
-	
-	public static final String[] ENCODED_STRINGS = {
-			"dlrow olleh",
-			"AAAABBBAAAA",
-			""
-	};
-
-	@Test
-	public void testEncode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.encode(DECODED_STRINGS[i]),
-							ENCODED_STRINGS[i]);
-		}
-	}
-	
-	@Test
-	public void testDecode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.decode(ENCODED_STRINGS[i]),
-						DECODED_STRINGS[i]);
-		}
-	}	
 }

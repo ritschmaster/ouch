@@ -20,7 +20,10 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.transcoders;
+package ouch.transcoders.fun;
+
+import ouch.transcoders.TextReadable;
+import ouch.transcoders.Transformable;
 
 /**
  * @author Alexander Kopp, Richard Paul Bäck
@@ -30,12 +33,12 @@ package ouch.transcoders;
  */
 public class MirroredTranscoder implements Transformable {
 
-	public String encode(String text) {		
-		return new StringBuilder(text).reverse().toString();		
+	public String encode(TextReadable text) {		
+		return new StringBuilder(text.toString()).reverse().toString();		
 	}
 
 	public String decode(String text) {
-		return encode(text);
+		return encode(text.toString());
 	}
 
 }

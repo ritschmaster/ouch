@@ -24,9 +24,9 @@ package ouch.transcoders;
 
 public interface Transformable {
 	
-	public String encode(String text);
+	public String encode(TextReadable text);
 	
-	public String decode(String text);
+	public String decode(TextReadable text);
 	
 	
 

@@ -20,44 +20,32 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.tests.transcoders;
+package ouch.transcoders;
 
-import static org.junit.Assert.*;
+public class FileTextReader implements TextReadable {
 
-import org.junit.Test;
+	public byte[] getNextBytes(int amount) {
+		// TODO Read the file and return a certain amount of bytes
+		return null;
+	}
 
-import ouch.transcoders.Transformable;
-import ouch.transcoders.fun.MirroredTranscoder;
+	public boolean canReadBytes() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-public class MirroredTranscoderTest {
-	public static final String[] DECODED_STRINGS = {
-			"hello world",
-			"AAAABBBAAAA",
-			""
-			//"Some test sentence which is a bit longer than usual."
-	};
-	
-	public static final String[] ENCODED_STRINGS = {
-			"dlrow olleh",
-			"AAAABBBAAAA",
-			""
-	};
-
-	@Test
-	public void testEncode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.encode(DECODED_STRINGS[i]),
-							ENCODED_STRINGS[i]);
-		}
+	public void resetByteReader() {
+		// TODO
 	}
 	
-	@Test
-	public void testDecode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.decode(ENCODED_STRINGS[i]),
-						DECODED_STRINGS[i]);
-		}
-	}	
+	public String getEntireString() {
+		// TODO Read the entire file into one string (perl slurp)
+		return "";
+	}
+	
+	public Metricable getMetrics() {
+		// TODO Read the metrics and return them
+		return null;
+	}
+
 }

@@ -20,44 +20,26 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.tests.transcoders;
+package ouch.transcoders;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-import ouch.transcoders.Transformable;
-import ouch.transcoders.fun.MirroredTranscoder;
-
-public class MirroredTranscoderTest {
-	public static final String[] DECODED_STRINGS = {
-			"hello world",
-			"AAAABBBAAAA",
-			""
-			//"Some test sentence which is a bit longer than usual."
-	};
+public interface TextReadable {
+	public String getEntireString();
 	
-	public static final String[] ENCODED_STRINGS = {
-			"dlrow olleh",
-			"AAAABBBAAAA",
-			""
-	};
-
-	@Test
-	public void testEncode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.encode(DECODED_STRINGS[i]),
-							ENCODED_STRINGS[i]);
-		}
-	}
+	/**
+	 * @param amount The amount of bytes you want to read
+	 * @return Returns the next bytes. If there are fewer bytes available then requested the length of the returned array is less then the given amount. 
+	 */
+	public byte[] getNextBytes(int amount);
 	
-	@Test
-	public void testDecode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.decode(ENCODED_STRINGS[i]),
-						DECODED_STRINGS[i]);
-		}
-	}	
+	/**
+	 * @return True when there are still bytes left to read 
+	 */
+	public boolean canReadBytes();
+	
+	/**
+	 * Resets the reading for the bytes. This means that getNextBytes() starts with the first bytes again.
+	 */
+	public void resetByteReader();
+	
+	public Metricable getMetrics();
 }
