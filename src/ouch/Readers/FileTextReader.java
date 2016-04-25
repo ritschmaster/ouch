@@ -72,5 +72,11 @@ public class FileTextReader implements TextReadable {
 		// TODO Read the metrics and return them
 		return null;
 	}
+	
+	@Override
+	public String getCharset() {
+		// TODO implement it
+		return null;
+	}
 
 }

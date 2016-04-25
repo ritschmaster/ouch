@@ -44,4 +44,9 @@ public interface TextReadable {
 	public void resetByteReader();
 	
 	public Metricable getMetrics();
+	
+	/**
+	 * @return The charset of this text.
+	 */
+	public String getCharset();
 }
