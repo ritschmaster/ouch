@@ -1,13 +1,14 @@
 package ouch.Readers;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 import ouch.transcoders.Metricable;
 
 public class StringReader implements TextReadable {
 	private String text;
 	private String charset;
-	private long currentPosInBytesOfText;
+	private int currentPosInBytesOfText;
 	private boolean endReached;
 	
 	public StringReader(String text) {
@@ -23,6 +24,7 @@ public class StringReader implements TextReadable {
 						Metricable metrics) {
 		this.text = text;
 		this.endReached = false;
+		this.currentPosInBytesOfText = 0;
 	}
 
 	@Override
@@ -33,6 +35,7 @@ public class StringReader implements TextReadable {
 	@Override
 	public byte[] getNextBytes(int amount) {
 		byte[] textAsBytes = null;
+		int newPos;
 		try {
 			textAsBytes = this.text.getBytes(this.charset);
 		} catch (UnsupportedEncodingException e) {
@@ -40,11 +43,15 @@ public class StringReader implements TextReadable {
 		}
 		if (this.currentPosInBytesOfText + amount 
 				> textAsBytes.length) {
-			this.currentPosInBytesOfText = textAsBytes.length - 1;
-			this.endReached = true;
+			
+			this.endReached = true;			
+			newPos = textAsBytes.length - 1;
 		} else {
-			this.currentPosInBytesOfText += amount;
+			newPos = this.currentPosInBytesOfText + amount;
 		}
+		textAsBytes = Arrays.copyOfRange(textAsBytes, 
+										 this.currentPosInBytesOfText,
+										 newPos);
 		return textAsBytes;
 	}
 

@@ -22,7 +22,42 @@
 
 package ouch.tui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+
 public class TextUI {
-	//TODO
+    @Option(name="--input")
+    private String inputEncoding = "not given";
+    
+    @Option(name="--output")
+    private String outputEncoding = "not given";
+        
+	@Argument
+	private List<String> arguments = new ArrayList<String>();
+	
+	public void doMain(String[] args) {
+		CmdLineParser parser = new CmdLineParser(this);
+		try {
+            parser.parseArgument(args);
+
+            if(arguments.isEmpty())
+            	throw new CmdLineException(parser,"No argument is given");
+            else if (arguments.size() < 1)
+            	throw new CmdLineException(parser,"Not enough arguments are given");
+
+        } catch( CmdLineException e ) {        	
+            System.err.println(e.getMessage());
+            System.err.println("java ouch [options...] arguments...");
+            parser.printUsage(System.err);
+            System.err.println();
+            return;
+        }
+
+	}
 	
 }
