@@ -76,8 +76,8 @@ public class OUCH {
 	 */
 	public String[] encode(Transformable t, String[] input) {
 		String[] ret = new String[input.length];
-		for (int i = 0; i < input.length; i++)
-			ret[i] = t.encode(input[i]);
+//		for (int i = 0; i < input.length; i++)
+//			ret[i] = t.encode(input[i]);
 		return ret;
 	}
 	
@@ -88,8 +88,8 @@ public class OUCH {
 	 */
 	public String[] decode(Transformable t, String[] input) {
 		String[] ret = new String[input.length];
-		for (int i = 0; i < input.length; i++)
-			ret[i] = t.decode(input[i]);
+//		for (int i = 0; i < input.length; i++)
+//			ret[i] = t.decode(input[i]);
 		return ret;
 	}
 	

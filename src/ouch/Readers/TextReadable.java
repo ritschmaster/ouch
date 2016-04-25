@@ -20,55 +20,28 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.transcoders;
+package ouch.Readers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import ouch.transcoders.Metricable;
 
-public class FileTextReader implements TextReadable {
-	private String path;
+public interface TextReadable {
+	public String getEntireString();
 	
-	public FileTextReader(String path) {
-		this.path = path;
-	}
+	/**
+	 * @param amount The amount of bytes you want to read
+	 * @return Returns the next bytes. If there are fewer bytes available then requested the length of the returned array is less then the given amount. 
+	 */
+	public byte[] getNextBytes(int amount);
 	
-
-	public byte[] getNextBytes(int amount) {
-		// TODO Read the file and return a certain amount of bytes
-		return null;
-	}
-
-	public boolean canReadBytes() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void resetByteReader() {
-		// TODO
-	}
+	/**
+	 * @return True when there are still bytes left to read 
+	 */
+	public boolean canReadBytes();
 	
-	public String getEntireString() {		
-		String ret = "";
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(this.path)));
-			
-			String line;
-			while ((line = reader.readLine()) != null) {
-				ret += line;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return ret;
-	}
+	/**
+	 * Resets the reading for the bytes. This means that getNextBytes() starts with the first bytes again.
+	 */
+	public void resetByteReader();
 	
-	public Metricable getMetrics() {
-		// TODO Read the metrics and return them
-		return null;
-	}
-
+	public Metricable getMetrics();
 }

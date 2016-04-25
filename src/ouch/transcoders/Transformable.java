@@ -22,6 +22,8 @@
 
 package ouch.transcoders;
 
+import ouch.Readers.TextReadable;
+
 public interface Transformable {
 	
 	public String encode(TextReadable text);

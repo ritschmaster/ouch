@@ -22,7 +22,7 @@
 
 package ouch.transcoders.fun;
 
-import ouch.transcoders.TextReadable;
+import ouch.Readers.TextReadable;
 import ouch.transcoders.Transformable;
 
 /**
@@ -33,12 +33,14 @@ import ouch.transcoders.Transformable;
  */
 public class MirroredTranscoder implements Transformable {
 
-	public String encode(TextReadable text) {		
-		return new StringBuilder(text.toString()).reverse().toString();		
+	@Override
+	public String encode(TextReadable text) {
+		return new StringBuilder(text.getEntireString().toString()).reverse().toString();		
 	}
 
-	public String decode(String text) {
-		return encode(text.toString());
+	@Override
+	public String decode(TextReadable text) {
+		return encode(text);
 	}
 
 }

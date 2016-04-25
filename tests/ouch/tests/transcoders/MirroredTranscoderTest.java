@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ouch.Readers.StringReader;
 import ouch.transcoders.Transformable;
 import ouch.transcoders.fun.MirroredTranscoder;
 
@@ -46,8 +47,9 @@ public class MirroredTranscoderTest {
 	@Test
 	public void testEncode() {
 		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.encode(DECODED_STRINGS[i]),
+		for (int i = 0; i < DECODED_STRINGS.length; i++) {
+			StringReader reader = new StringReader(DECODED_STRINGS[i]);
+			assertEquals(t.encode(reader),
 							ENCODED_STRINGS[i]);
 		}
 	}
@@ -55,8 +57,9 @@ public class MirroredTranscoderTest {
 	@Test
 	public void testDecode() {
 		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {			
-			assertEquals(t.decode(ENCODED_STRINGS[i]),
+		for (int i = 0; i < DECODED_STRINGS.length; i++) {
+			StringReader reader = new StringReader(ENCODED_STRINGS[i]);
+			assertEquals(t.decode(reader),
 						DECODED_STRINGS[i]);
 		}
 	}	
