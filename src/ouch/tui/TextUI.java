@@ -2,7 +2,6 @@
  * Copyright (C) 2016 Richard Paul Bäck <richard.baeck@free-your-pc.com>
  * 					  Dominik Koller <kollerdominik@icloud.com>
  * 					  Alexander Kopp <alexander.kopp@gmx.at>
- * 					  Zhe Wu <wuzhe1996@gmail.com>
  *
  * This file is part of OUCH.
  *
@@ -29,28 +28,36 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import ouch.Readers.*;
+import ouch.transcoders.*;
+import ouch.transcoders.fun.*;
 
 public class TextUI {
-    @Option(name="--input")
-    private String inputEncoding = "not given";
+    private static final String FILE_NOT_SUPPLIED = "/missing";
     
-    @Option(name="--output")
-    private String outputEncoding = "not given";
-        
-	@Argument
-	private List<String> arguments = new ArrayList<String>();
-	
-	public void doMain(String[] args) {
-		CmdLineParser parser = new CmdLineParser(this);
-		try {
-            parser.parseArgument(args);
+    @Option(name="-i")
+    private String inputEncoding = "plain";
+    
+    @Option(name="-o")
+    private String outputEncoding = "plain";
 
-            if(arguments.isEmpty())
+    @Option(name="--file")
+    private String filename = FILE_NOT_SUPPLIED;
+
+    @Argument
+    private List<String> arguments = new ArrayList<String>();
+
+    public void doMain(String[] args) {
+        CmdLineParser parser = new CmdLineParser(this);
+        try {
+            parser.parseArgument(args);
+            
+            if(this.arguments.isEmpty())
             	throw new CmdLineException(parser,"No argument is given");
-            else if (arguments.size() < 1)
+            else if (this.arguments.size() < 1)
             	throw new CmdLineException(parser,"Not enough arguments are given");
 
-        } catch( CmdLineException e ) {        	
+        } catch( CmdLineException e ) {
             System.err.println(e.getMessage());
             System.err.println("java ouch [options...] arguments...");
             parser.printUsage(System.err);
@@ -58,6 +65,21 @@ public class TextUI {
             return;
         }
 
-	}
-	
+        TextReadable reader;
+        if (this.filename.equals(FILE_NOT_SUPPLIED)) {
+            String input = this.arguments.get(0);
+            if (this.inputEncoding.equals("mirrored")) {
+                input = (new MirroredTranscoder().decode(new StringReader(this.arguments.get(0))));;
+            }
+            reader = new StringReader(input);
+        } else {
+            reader = new StringReader(this.arguments.get(0));
+        }
+
+        Transformable transcoder = new PlainTranscoder();
+        if (this.outputEncoding.equals("mirrored")) {
+            transcoder = new MirroredTranscoder();
+        }
+        System.out.println(transcoder.encode(reader));
+    }
 }

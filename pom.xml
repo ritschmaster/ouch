@@ -41,10 +41,10 @@
                 </goals>
                 <configuration>
                   <mainClass>ouch.tui.Main</mainClass>
-                  <!-- <arguments> -->
-                  <!--   <argument>arg0</argument> -->
-                  <!--   <argument>arg1</argument> -->
-                  <!-- </arguments> -->
+                  <arguments>
+                    <argument>-o mirrored</argument>
+                    <argument>hello world</argument>
+                  </arguments>
                 </configuration>
               </execution>
             </executions>
@@ -70,8 +70,7 @@
                 <configuration>
                   <mainClass>ouch.gui.Main</mainClass>
                   <!-- <arguments> -->
-                  <!--   <argument>arg0</argument> -->
-                  <!--   <argument>arg1</argument> -->
+                  <!--   <argument>hello</argument> -->
                   <!-- </arguments> -->
                 </configuration>
               </execution>
