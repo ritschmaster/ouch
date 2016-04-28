@@ -1,0 +1,9 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: optional
+Depends: jdk (>= 1.8)
+Architecture: all
+Maintainer: Richard Paul Bäck <richard.baeck@free-your-pc.com>
+Depends: default-jre | java8-runtime | args4j (>= 2.0.30) | junit (>= 4.11)
+Description: asdf

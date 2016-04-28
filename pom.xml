@@ -5,9 +5,10 @@
   <packaging>jar</packaging>
 
   <artifactId>ouch</artifactId>
-
   <version>0.0.1</version>
+
   <name>ouch</name>
+  <description>A tool to convert between many different number systems and encodings.</description>
 
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -20,6 +21,60 @@
           <source/>
           <target/>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>ouch.tui.Main</mainClass>
+            </manifest>
+            <manifestEntries>
+              <Class-Path>/usr/share/java/args4j.jar</Class-Path>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jdeb</goal>
+            </goals>
+            <configuration>
+              <!-- <signPackage>true</signPackage> -->
+              <verbose>true</verbose>
+              <controlDir>${basedir}/src/deb/control</controlDir>
+              <dataSet>
+                <data>
+                  <src>${project.name}</src>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <filemode>655</filemode>
+                    <prefix>/usr/bin</prefix>
+                  </mapper>
+                </data>
+                <data>
+                  <src>${project.build.directory}/${project.build.finalName}.jar</src>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/usr/share/java</prefix>
+                  </mapper>
+                </data>
+              </dataSet>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -42,7 +97,8 @@
                 <configuration>
                   <mainClass>ouch.tui.Main</mainClass>
                   <arguments>
-                    <argument>-o mirrored</argument>
+                    <argument>-o</argument>
+                    <argument>mirrored</argument>
                     <argument>hello world</argument>
                   </arguments>
                 </configuration>
@@ -69,9 +125,6 @@
                 </goals>
                 <configuration>
                   <mainClass>ouch.gui.Main</mainClass>
-                  <!-- <arguments> -->
-                  <!--   <argument>hello</argument> -->
-                  <!-- </arguments> -->
                 </configuration>
               </execution>
             </executions>
@@ -86,12 +139,12 @@
     <dependency>
       <groupId>args4j</groupId>
       <artifactId>args4j</artifactId>
-      <version>2.33</version>
+      <version>2.0.29</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.11</version>
     </dependency>
   </dependencies>
 
