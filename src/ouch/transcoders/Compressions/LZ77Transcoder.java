@@ -1,7 +1,6 @@
 package ouch.transcoders.Compressions;
 
 import java.util.LinkedList;
-import java.util.Stack;
 
 import ouch.Readers.StringReader;
 import ouch.Readers.TextReadable;
@@ -24,6 +23,7 @@ public class LZ77Transcoder implements Transformable {
 		for (char c : text.getEntireString().toCharArray()) {
 			lookAheadBuffer.add(c);
 		}
+		
 		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
 		
 		while (lookAheadBuffer.size() > 0) {
@@ -38,7 +38,6 @@ public class LZ77Transcoder implements Transformable {
 		    	if (lookAheadBuffer.getFirst() == searchBuffer.get(i)) {
 		    		newIndex = searchBuffer.size() - i;
 		    		newLength++;
-		    		
 		    		
 		    		while((lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) {	    			
 		    			if (newLength+1 >= lookAheadBuffer.size() || (i+newLength+1) >= searchBuffer.size() || newLength >= 15)  {
@@ -63,7 +62,7 @@ public class LZ77Transcoder implements Transformable {
 		    //Output result
 		    if (index != 0 && length > 0) {
 		    	outString.append(new Triple(index, length, lookAheadBuffer.get(length)).str);
-		    	System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
+		    	//System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
 		    	
 		    	for (int j = 0; j <= length; j++) {
 		    		searchBuffer.push(lookAheadBuffer.removeFirst());	
@@ -72,7 +71,7 @@ public class LZ77Transcoder implements Transformable {
 		    	char c = lookAheadBuffer.removeFirst();
 		    	searchBuffer.push(c);
 		    	outString.append(new Triple(0,0, c).str);
-		    	System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
+		    	//System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
 		    }	
 		}
 
@@ -80,48 +79,38 @@ public class LZ77Transcoder implements Transformable {
 		return outString.toString();
 	}
 	
-	
 	@Override
 	public String decode(TextReadable text) {
-		
 		String input = text.getEntireString();
 		outString = new StringBuilder();
-		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
-		
 		
 		for (int i = 0; i < input.length(); i = i + 3) {
 			Triple t = new Triple(input.substring(i, i+3));
 			
-			System.out.print("(" + t.offset + "," + t.length + "," + t.followChar + ")");
+			//System.out.print("(" + t.offset + "," + t.length + "," + t.followChar + ")");
 			
-			if (t.length == 0 && t.offset == 0) {
-				outString.append(t.followChar);
-			} else {
-				//TODO
+			if (t.length != 0 || t.offset != 0) {			
+				int beginIndex = outString.length() - t.offset;
+				int endIndex = beginIndex + t.length;
 				
+				outString.append(outString.toString().substring(beginIndex, endIndex));	
 			}
+			outString.append(t.followChar);
 		}
-		
-		
-		
 		return outString.toString();
 	}
 	
 	public static void main(String[] args) {			
-		//Quick Test TODO: proper test
+		//Quick Test - semms to work TODO: write Unit-Test
 		LZ77Transcoder trc = new LZ77Transcoder();
 		String str = "The long-string instrument is an instrument in which the string is of such a length that the fundamental transverse wave is below what a person can hear as a tone (±20 Hz). If the tension and the length result in sounds with such a frequency, the tone becomes a beating frequency that ranges from a short reverb (approx 5–10 meters) to longer echo sounds (longer than 10 meters). Besides the beating frequency, the string also gives higher pitched natural overtones. Since the length is that long, this has an effect on the attack tone. The attack tone shoots through the string in a longitudinal wave and generates the typical science-fiction laser-gun sound as heard in Star Wars.[1] The sound is also similar to that occurring in upper electricity cables for trains (which are ready made long-string instruments in a way).";
-		String str2 = "In Ulm, um Ulm, und um Ulm herum.";
+		//String str2 = "In Ulm, um Ulm, und um Ulm herum.";
 				
 				
 		String s = trc.encode(new StringReader(str));
-
-//		System.out.println("\nRESULTS:");
-//		System.out.println("UNCOMPRESSED: " + str.length());
-//		System.out.println("COMPRESSED: " + s.length());
-		
 		String out = trc.decode(new StringReader(s));
-		//System.out.println(out);
+		System.out.println("BEFORE: " + str);
+		System.out.println("AFTER:  " + out);
 		
 	}
 
@@ -167,7 +156,6 @@ public class LZ77Transcoder implements Transformable {
 			int i1 = str.charAt(0) << 8;
 			i1 = i1 & 0xFFF;
 			int i2 = str.charAt(1) & 0xFF;
-			
 			this.offset = i1 | i2;
 		}
 		
@@ -191,5 +179,4 @@ public class LZ77Transcoder implements Transformable {
 			this.str =  new String(c);
 		}
 	}
-
 }
