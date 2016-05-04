@@ -24,43 +24,26 @@ package ouch.tests.transcoders;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import ouch.Readers.StringReader;
-import ouch.transcoders.Transformable;
 import ouch.transcoders.fun.MirroredTranscoder;
 
-public class MirroredTranscoderTest {
-	public static final String[] DECODED_STRINGS = {
-			"hello world",
-			"AAAABBBAAAA",
-			""
-			//"Some test sentence which is a bit longer than usual."
-	};
-	
-	public static final String[] ENCODED_STRINGS = {
-			"dlrow olleh",
-			"AAAABBBAAAA",
-			""
-	};
+public class MirroredTranscoderTest extends TranscoderTest {	
+	@Before
+	public void setUp() throws Exception {
+		ENCODED_STRINGS[0] = "dlrow olleh";
+		ENCODED_STRINGS[1] = "AAAABBBAAAA";
+		ENCODED_STRINGS[2] = "";
+	}
 
 	@Test
 	public void testEncode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {
-			StringReader reader = new StringReader(DECODED_STRINGS[i]);
-			assertEquals(t.encode(reader),
-							ENCODED_STRINGS[i]);
-		}
+		this.testEncode(new MirroredTranscoder());
 	}
-	
-	@Test
+
+        @Test
 	public void testDecode() {
-		Transformable t = new MirroredTranscoder();
-		for (int i = 0; i < DECODED_STRINGS.length; i++) {
-			StringReader reader = new StringReader(ENCODED_STRINGS[i]);
-			assertEquals(t.decode(reader),
-						DECODED_STRINGS[i]);
-		}
-	}	
+		this.testDecode(new MirroredTranscoder());
+	}
 }

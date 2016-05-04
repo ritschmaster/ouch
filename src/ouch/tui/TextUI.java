@@ -30,6 +30,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import ouch.Readers.*;
 import ouch.transcoders.*;
+import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.fun.*;
 
 public class TextUI {

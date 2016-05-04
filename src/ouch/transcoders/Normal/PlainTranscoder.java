@@ -19,7 +19,7 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.transcoders.fun;
+package ouch.transcoders.Normal;
 
 import ouch.Readers.TextReadable;
 import ouch.transcoders.Transformable;

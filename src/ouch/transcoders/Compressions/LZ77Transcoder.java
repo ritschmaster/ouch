@@ -63,10 +63,10 @@ public class LZ77Transcoder implements Transformable {
 			this.followChar = str.charAt(2);
 			
 			byte b = (byte) (str.charAt(0) >>> 4);
-			this.length = (byte) (b & 0b00001111);
+			this.length = (byte) (b & 0x00001111);
 			
 			int i = (byte) (str.charAt(0) << 8);
-			i = (byte) (i & 0b00000000);
+			i = (byte) (i & 0x00000000);
 			this.offset = i | str.charAt(1);
 		}
 		
@@ -75,10 +75,10 @@ public class LZ77Transcoder implements Transformable {
 			byte b1, b2;
 			
 			b1 = (byte) (length << 4);
-			b1 = (byte) (b1 & 0b11110000);
+			b1 = (byte) (b1 & 0x11110000);
 						
 			b2 = (byte) (offset >>> 8);
-			b2 = (byte) (b2 & 0b00001111);
+			b2 = (byte) (b2 & 0x00001111);
 						
 			c[0] = (char) (b1 | b2);
 			//System.out.println("b2 " + Integer.toBinaryString(Byte.toUnsignedInt(length)));
