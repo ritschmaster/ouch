@@ -1,7 +1,6 @@
 package ouch.transcoders.Compressions;
 
 import java.util.LinkedList;
-import java.util.Stack;
 
 import ouch.Readers.StringReader;
 import ouch.Readers.TextReadable;
@@ -10,7 +9,7 @@ import ouch.transcoders.Transformable;
 
 public class LZ77Transcoder implements Transformable {
 	
-	private static final int SEARCH_BUFFER_SIZE = 500; //A larger number means better compression, but worse perfomance
+	private static final int SEARCH_BUFFER_SIZE = 500; //A larger number means better compression, but worse performance
 	private static final int LOOKAHEAD_BUFFER_SIZE = 15; //maximum length (4 bit)
 	
 	private StringBuilder outString;
@@ -36,9 +35,8 @@ public class LZ77Transcoder implements Transformable {
 		    for (int i = 0; i < searchBuffer.size(); i++) {
 		    	int newIndex = 0;
 				int newLength = 0;
-		    	char cur = lookAheadBuffer.getFirst();
 		    	
-		    	if (cur == searchBuffer.get(i)) {
+		    	if (lookAheadBuffer.getFirst() == searchBuffer.get(i)) {
 		    		newIndex = searchBuffer.size() - i;
 		    		newLength++;
 		    		
