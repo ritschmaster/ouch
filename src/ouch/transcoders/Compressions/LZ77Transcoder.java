@@ -28,7 +28,7 @@ public class LZ77Transcoder implements Transformable {
 		
 		while (lookAheadBuffer.size() > 0) {
 			int index = 0;
-		    int length = 0; //MAX 15
+		    int length = 0; 
 		   
 		    //search buffer for best (longest) result
 		    for (int i = 0; i < searchBuffer.size(); i++) {
@@ -52,14 +52,13 @@ public class LZ77Transcoder implements Transformable {
 		    			index = newIndex;
 		    		} 
 		    		
-		    		//longest encodable result found, 
+		    		//longest encodeable result found, 
 		    		if (length == LOOKAHEAD_BUFFER_SIZE) {
 		    			break;
 		    		}
 		    	}
 		    }
 
-		    //Output result
 		    if (index != 0 && length > 0) {
 		    	outString.append(new Triple(index, length, lookAheadBuffer.get(length)).str);
 		    	//System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
@@ -75,7 +74,6 @@ public class LZ77Transcoder implements Transformable {
 		    }	
 		}
 
-		System.out.println();
 		return outString.toString();
 	}
 	
