@@ -1,6 +1,7 @@
 package ouch.transcoders.Compressions;
 
 import java.util.LinkedList;
+import java.util.Stack;
 
 import ouch.Readers.StringReader;
 import ouch.Readers.TextReadable;
@@ -13,19 +14,17 @@ public class LZ77Transcoder implements Transformable {
 	private static final int LOOKAHEAD_BUFFER_SIZE = 15; //maximum length (4 bit)
 	
 	private StringBuilder outString;
-	private LinkedList<Character> lookAheadBuffer;
-	private FixedSizeStack<Character> searchBuffer;
 
 	@Override
 	public String encode(TextReadable text) {
 		outString = new StringBuilder();
-		lookAheadBuffer = new LinkedList<Character>();
+		LinkedList<Character> lookAheadBuffer = new LinkedList<Character>();
 		
 		//fill look ahead buffer
 		for (char c : text.getEntireString().toCharArray()) {
 			lookAheadBuffer.add(c);
 		}
-		searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
+		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
 		
 		while (lookAheadBuffer.size() > 0) {
 			int index = 0;
@@ -41,9 +40,8 @@ public class LZ77Transcoder implements Transformable {
 		    		newLength++;
 		    		
 		    		
-		    		while((lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) {
-		    					    			
-		    			if (newLength+1 >= lookAheadBuffer.size() || (i+newLength+1) >= searchBuffer.size()) {
+		    		while((lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) {	    			
+		    			if (newLength+1 >= lookAheadBuffer.size() || (i+newLength+1) >= searchBuffer.size() || newLength >= 15)  {
 		    				break;
 		    			} else {
 		    				newLength++;
@@ -85,7 +83,28 @@ public class LZ77Transcoder implements Transformable {
 	
 	@Override
 	public String decode(TextReadable text) {
-		return null;
+		
+		String input = text.getEntireString();
+		outString = new StringBuilder();
+		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
+		
+		
+		for (int i = 0; i < input.length(); i = i + 3) {
+			Triple t = new Triple(input.substring(i, i+3));
+			
+			System.out.print("(" + t.offset + "," + t.length + "," + t.followChar + ")");
+			
+			if (t.length == 0 && t.offset == 0) {
+				outString.append(t.followChar);
+			} else {
+				//TODO
+				
+			}
+		}
+		
+		
+		
+		return outString.toString();
 	}
 	
 	public static void main(String[] args) {			
@@ -96,12 +115,13 @@ public class LZ77Transcoder implements Transformable {
 				
 				
 		String s = trc.encode(new StringReader(str));
-		System.out.println();
-		System.out.println(s);
-		System.out.println("\nRESULTS:");
-		System.out.println("UNCOMPRESSED: " + str.length());
-		System.out.println("COMPRESSED: " + s.length());
+
+//		System.out.println("\nRESULTS:");
+//		System.out.println("UNCOMPRESSED: " + str.length());
+//		System.out.println("COMPRESSED: " + s.length());
 		
+		String out = trc.decode(new StringReader(s));
+		//System.out.println(out);
 		
 	}
 
@@ -142,10 +162,13 @@ public class LZ77Transcoder implements Transformable {
 			this.followChar = str.charAt(2);
 			
 			byte b = (byte) (str.charAt(0) >>> 4);
-			this.length = (byte) (b & 0b00001111);
+			this.length = (b & 0b00001111);
 			
-			int i = (byte) (str.charAt(0) << 8);
-						this.offset = i | str.charAt(1);
+			int i1 = str.charAt(0) << 8;
+			i1 = i1 & 0xFFF;
+			int i2 = str.charAt(1) & 0xFF;
+			
+			this.offset = i1 | i2;
 		}
 		
 		private void pack() {
