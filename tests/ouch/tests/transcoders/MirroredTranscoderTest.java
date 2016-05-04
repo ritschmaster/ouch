@@ -33,7 +33,7 @@ public class MirroredTranscoderTest extends TranscoderTest {
 	@Before
 	public void setUp() throws Exception {
 		ENCODED_STRINGS[0] = "dlrow olleh";
-		ENCODED_STRINGS[1] = "AAAABBBAAAA";
+		ENCODED_STRINGS[1] = "aaaabbbaaaa";
 		ENCODED_STRINGS[2] = "";
 	}
 

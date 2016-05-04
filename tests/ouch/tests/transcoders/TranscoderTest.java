@@ -8,7 +8,7 @@ import ouch.transcoders.Transformable;
 abstract public class TranscoderTest {
 	public static final String[] DECODED_STRINGS = {
 			"hello world",
-			"AAAABBBAAAA",
+			"aaaabbbaaaa",
 			""
 			//"Some test sentence which is a bit longer than usual."
 	};
@@ -17,16 +17,16 @@ abstract public class TranscoderTest {
 	protected void testEncode(Transformable transcoder) {
 		for (int i = 0; i < DECODED_STRINGS.length; i++) {
 			StringReader reader = new StringReader(DECODED_STRINGS[i]);
-			assertEquals(transcoder.encode(reader),
-							ENCODED_STRINGS[i]);
+			assertEquals(ENCODED_STRINGS[i], transcoder.encode(reader));
+							
 		}
 	}
 	
 	protected void testDecode(Transformable transcoder) {		
 		for (int i = 0; i < DECODED_STRINGS.length; i++) {
 			StringReader reader = new StringReader(ENCODED_STRINGS[i]);
-			assertEquals(transcoder.decode(reader),
-						DECODED_STRINGS[i]);
+			assertEquals(DECODED_STRINGS[i], transcoder.decode(reader));
+							
 		}
 	}	
 		

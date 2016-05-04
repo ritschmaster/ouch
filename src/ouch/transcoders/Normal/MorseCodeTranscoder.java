@@ -2,50 +2,140 @@ package ouch.transcoders.Normal;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import ouch.Readers.TextReadable;
 import ouch.transcoders.Transformable;
 
 public class MorseCodeTranscoder implements Transformable {
-	private static HashMap<Byte, String> MORSE_MAP;
+	public enum StringFormat {
+			UPPER,
+			LOWER
+	}
+	
+	private static HashMap<Character, String> MORSE_MAP;
+	
+	private StringFormat encodeFormat;
+	private StringFormat decodeFormat;
 	
 	public MorseCodeTranscoder() {
+		this(StringFormat.LOWER, StringFormat.LOWER);
+	}
+	
+	public MorseCodeTranscoder(StringFormat decodeFormat) {
+		this(decodeFormat, StringFormat.LOWER);
+	}
+	
+	public MorseCodeTranscoder(StringFormat decodeFormat, StringFormat encodeFormat) {
 		if (MORSE_MAP == null) {
-			MORSE_MAP = new HashMap<Byte, String>();
-			MORSE_MAP.put((byte) 'A', ",--");
+			MORSE_MAP = new HashMap<Character, String>();
+			MORSE_MAP.put('A', ".-");
+			MORSE_MAP.put('B', "-...");
+            MORSE_MAP.put('C', "-.-.");
+            MORSE_MAP.put('D', "-..");
+            MORSE_MAP.put('E', ".");
+            MORSE_MAP.put('F', "..-.");
+            MORSE_MAP.put('G', "--.");
+            MORSE_MAP.put('H', "....");
+            MORSE_MAP.put('I', "..");
+            MORSE_MAP.put('J', ".---");
+            MORSE_MAP.put('K', "-.-");
+            MORSE_MAP.put('L', ".-..");
+            MORSE_MAP.put('M', "--");
+            MORSE_MAP.put('N', "-.");
+            MORSE_MAP.put('O', "---");
+            MORSE_MAP.put('P', ".--.");
+            MORSE_MAP.put('Q', "--.-");
+            MORSE_MAP.put('R', ".-.");
+            MORSE_MAP.put('S', "...");
+            MORSE_MAP.put('T', "-");
+            MORSE_MAP.put('U', "..-");
+            MORSE_MAP.put('V', "...-");
+            MORSE_MAP.put('W', ".--");
+            MORSE_MAP.put('X', "-..-");
+            MORSE_MAP.put('Y', "-.--");
+            MORSE_MAP.put('Z', "--..");
+            MORSE_MAP.put('1', ".----");
+            MORSE_MAP.put('2', "..---");
+            MORSE_MAP.put('3', "...--");
+            MORSE_MAP.put('4', "....-");
+            MORSE_MAP.put('5', ".....");
+            MORSE_MAP.put('6', "-....");
+            MORSE_MAP.put('7', "--...");
+            MORSE_MAP.put('8', "---..");
+            MORSE_MAP.put('9', "----.");
+            MORSE_MAP.put('0', "-----");
+            MORSE_MAP.put('-', "-....-");
+            MORSE_MAP.put('\'', ".----.");
+            MORSE_MAP.put('=', "-...-");
+            MORSE_MAP.put(' ', "/");
 		}
+		this.decodeFormat = decodeFormat;
+		this.encodeFormat = encodeFormat;
 	}
 
 	@Override
 	public String encode(TextReadable text) {
-		String ret = "";			
-	
+		String ret = "";
+
 		try {
-			byte[] textToEncode = text.getEntireString().getBytes("US-ASCII");
-			
-			for (byte b : textToEncode) {
-				ret += MORSE_MAP.get(b);
+			byte[] textToEncode = null;
+			switch(this.encodeFormat) {
+				case UPPER:
+					textToEncode = text.getEntireString().toUpperCase().getBytes("US-ASCII");
+					break;
+				case LOWER:
+					textToEncode = text.getEntireString().toLowerCase().getBytes("US-ASCII");
+					break;
+			}
+
+			for (int i = 0; i < textToEncode.length; i++) {
+				char charToEncode = (char) (textToEncode[i] & 0xFF);
+				ret += MORSE_MAP.get(Character.toUpperCase(charToEncode));
+				if (i + 1 < textToEncode.length)
+					ret += " ";				
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-				
+
+		return ret;
+	}
+	
+	private static Character getCharacterForString(String character) {
+		Character ret = null;
+		for (Entry<Character, String> entry : MORSE_MAP.entrySet()) {
+            if (entry.getValue().equals(character)) {
+                ret = entry.getKey(); 
+            }
+        }
 		return ret;
 	}
 
 	@Override
 	public String decode(TextReadable text) {
 		String 
-			ret = "",			
-			textToDecode = text.getEntireString(),
-			morseCodeUntilNow = "";		
-		
+			ret = "",	
+			morseCodeUntilNow = "",
+			textToDecode = text.getEntireString();
+						
 		for (int i = 0; i < textToDecode.length(); i++) {
-			morseCodeUntilNow += textToDecode.charAt(i);
-			if (morseCodeUntilNow != null) { // TODO hit a morse code
-				ret += morseCodeUntilNow;
+			if (textToDecode.charAt(i) != ' ') {
+				morseCodeUntilNow += textToDecode.charAt(i);
+			}
+			if (textToDecode.charAt(i) == ' '
+				|| i + 1 >= textToDecode.length()) {
+				char adding = getCharacterForString(morseCodeUntilNow);				
+				switch(this.encodeFormat) {
+					case UPPER:
+						ret += Character.toUpperCase(adding);
+						break;
+					case LOWER:
+						ret += Character.toLowerCase(adding);
+						break;
+				}				
 				morseCodeUntilNow = "";
-			}			
+			}
 		}		
 		
 		return ret;
