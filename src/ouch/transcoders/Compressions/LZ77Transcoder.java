@@ -11,6 +11,7 @@ public class LZ77Transcoder implements Transformable {
 	
 	private static final int SEARCH_BUFFER_SIZE = 500; //A larger number means better compression, but worse performance
 	private static final int LOOKAHEAD_BUFFER_SIZE = 15; //maximum length (4 bit)
+	private static final char	FILE_SEPERATOR = (char) 28;
 	
 	private StringBuilder outString;
 
@@ -23,6 +24,7 @@ public class LZ77Transcoder implements Transformable {
 		for (char c : text.getEntireString().toCharArray()) {
 			lookAheadBuffer.add(c);
 		}
+		lookAheadBuffer.add(FILE_SEPERATOR);
 		
 		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
 		
@@ -38,15 +40,15 @@ public class LZ77Transcoder implements Transformable {
 		    	if (lookAheadBuffer.getFirst() == searchBuffer.get(i)) {
 		    		newIndex = searchBuffer.size() - i;
 		    		newLength++;
-		    		
-		    		while((lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) {	    			
-		    			if (newLength+1 >= lookAheadBuffer.size() || (i+newLength+1) >= searchBuffer.size() || newLength >= 15)  {
+		
+		    		while((newLength < lookAheadBuffer.size()) && (i+newLength < searchBuffer.size()) && (lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) {	    			
+		    			if ((newLength >= lookAheadBuffer.size()) || (i+newLength >= searchBuffer.size()) || newLength >= 15)  {
 		    				break;
 		    			} else {
 		    				newLength++;
 		    			}
 		    		}
-		    		
+
 		    		if (newLength >= length) {
 		    			length = newLength;
 		    			index = newIndex;
@@ -60,12 +62,13 @@ public class LZ77Transcoder implements Transformable {
 		    }
 
 		    if (index != 0 && length > 0) {
-		    	outString.append(new Triple(index, length, lookAheadBuffer.get(length)).str);
-		    	//System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
-		    	
+	    		outString.append(new Triple(index, length, lookAheadBuffer.get(length)).str);
+	    		//System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
+
 		    	for (int j = 0; j <= length; j++) {
 		    		searchBuffer.push(lookAheadBuffer.removeFirst());	
 				}
+		    	
 		    } else {
 		    	char c = lookAheadBuffer.removeFirst();
 		    	searchBuffer.push(c);
@@ -73,7 +76,7 @@ public class LZ77Transcoder implements Transformable {
 		    	//System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
 		    }	
 		}
-
+		System.out.println();
 		return outString.toString();
 	}
 	
@@ -98,19 +101,20 @@ public class LZ77Transcoder implements Transformable {
 		return outString.toString();
 	}
 	
-	public static void main(String[] args) {			
-		//Quick Test - semms to work TODO: write Unit-Test
-		LZ77Transcoder trc = new LZ77Transcoder();
-		String str = "The long-string instrument is an instrument in which the string is of such a length that the fundamental transverse wave is below what a person can hear as a tone (±20 Hz). If the tension and the length result in sounds with such a frequency, the tone becomes a beating frequency that ranges from a short reverb (approx 5–10 meters) to longer echo sounds (longer than 10 meters). Besides the beating frequency, the string also gives higher pitched natural overtones. Since the length is that long, this has an effect on the attack tone. The attack tone shoots through the string in a longitudinal wave and generates the typical science-fiction laser-gun sound as heard in Star Wars.[1] The sound is also similar to that occurring in upper electricity cables for trains (which are ready made long-string instruments in a way).";
-		//String str2 = "In Ulm, um Ulm, und um Ulm herum.";
-				
-				
-		String s = trc.encode(new StringReader(str));
-		String out = trc.decode(new StringReader(s));
-		System.out.println("BEFORE: " + str);
-		System.out.println("AFTER:  " + out);
-		
-	}
+//	public static void main(String[] args) {			
+//		//Quick Test - semms to work TODO: write Unit-Test
+//		LZ77Transcoder trc = new LZ77Transcoder();
+//		String str = "The long-string instrument is an instrument in which the string is of such a length that the fundamental transverse wave is below what a person can hear as a tone (±20 Hz). If the tension and the length result in sounds with such a frequency, the tone becomes a beating frequency that ranges from a short reverb (approx 5–10 meters) to longer echo sounds (longer than 10 meters). Besides the beating frequency, the string also gives higher pitched natural overtones. Since the length is that long, this has an effect on the attack tone. The attack tone shoots through the string in a longitudinal wave and generates the typical science-fiction laser-gun sound as heard in Star Wars.[1] The sound is also similar to that occurring in upper electricity cables for trains (which are ready made long-string instruments in a way).";
+//		String str2 = "In Ulm, um Ulm, und um Ulm herum.";
+//		String str3 = "abracadabra";
+//				
+//				
+//		String s = trc.encode(new StringReader(str3));
+//		String out = trc.decode(new StringReader(s));
+//		System.out.println("BEFORE: " + str3);
+//		System.out.println("AFTER:  " + out);
+//		
+//	}
 
 	/*	Representing Triple (offset, length, character) for LZ77
 	 *  Output String encoded as follows:
