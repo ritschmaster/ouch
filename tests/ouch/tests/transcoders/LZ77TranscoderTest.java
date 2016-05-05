@@ -15,7 +15,13 @@ public class LZ77TranscoderTest {
 			"abracadabra",
 			"abababababab",
 			"aaaaaaaaaaaaaaa",
-			"aaaaaaaaaaaaaab"
+			"aaaaaaaaaaaaaab",
+			"In Ulm, um Ulm, und um Ulm herum.",
+			"abababababababab",
+			"abcdefghijklmnopqrstuvwxyz0123456789!\"§$%&/()=?²³{[]}\\",
+			"",
+			" ",
+			"1"
 			
 			//"Some test sentence which is a bit longer than usual."
 	};
@@ -25,7 +31,7 @@ public class LZ77TranscoderTest {
 
 	protected String[] ENCODED_STRINGS = new String[3];	
 	
-	private void testEncodeDecode(String[] strings, boolean file) {
+	private void testEncodeDecode(String[] strings) {
 		for (String s : SHORT_STRINGS) {
 			LZ77Transcoder t = new LZ77Transcoder();
 			String s1 = t.encode(new StringReader(s));
@@ -37,12 +43,12 @@ public class LZ77TranscoderTest {
 	
 	@Test
 	public void testEncodeDecodeShortStrings() {
-		testEncodeDecode(SHORT_STRINGS, false);
+		testEncodeDecode(SHORT_STRINGS);
 	}
 	
 	@Test
 	public void testEncodeDecodeLongString() {
-		testEncodeDecode(LONG_STRINGS, false);
+		testEncodeDecode(LONG_STRINGS);
 	}
 	
 	@Test
