@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import ouch.Readers.FileTextReader;
 import ouch.Readers.StringReader;
-import ouch.transcoders.Transformable;
 import ouch.transcoders.Compressions.LZ77Transcoder;
 
 public class LZ77TranscoderTest {
@@ -51,21 +50,17 @@ public class LZ77TranscoderTest {
 		LZ77Transcoder t = new LZ77Transcoder();
 		FileTextReader rdr = new FileTextReader("tests/testfile");
 		String in = rdr.getEntireString();
-		
 		String s1 = t.encode(rdr);
 		String out = t.decode(new StringReader(s1));
 		assertEquals(in + FILE_SEPERATOR, out);
-		System.out.println("UNC: " + in.length());
-		System.out.println("COM: " + s1.length());
-	
 	}
 	
 
 	@Test
-	public void testEncode1MB() {
+	public void testEncodeDuration1MB() {
 		LZ77Transcoder t = new LZ77Transcoder();
 		FileTextReader rdr = new FileTextReader("tests/1mb");
-		String s = t.encode(rdr);
+		t.encode(rdr);
 	}
 	
 	@Test
