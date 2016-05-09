@@ -45,6 +45,9 @@ public class TextUI {
 
     @Option(name="--file")
     private String filename = FILE_NOT_SUPPLIED;
+    
+    @Option(name="--metrics")
+    private boolean metricsEnabled = false;
 
     @Argument
     private List<String> arguments = new ArrayList<String>();
@@ -68,6 +71,7 @@ public class TextUI {
         }
 
         TextReadable reader;
+        String output = "";
         if (this.filename.equals(FILE_NOT_SUPPLIED)) {
             String input = this.arguments.get(0);
             if (this.inputEncoding.equals("mirrored")) {
@@ -86,6 +90,9 @@ public class TextUI {
         } else if (this.outputEncoding.equals("morse")) {
             transcoder = new MorseCodeTranscoder();
         }
-        System.out.println(transcoder.encode(reader));
+        output = transcoder.encode(reader);
+        
+        System.out.println(transcoder.getLastDiff().toString());
+        System.out.println(output);
     }
 }

@@ -23,5 +23,5 @@
 package ouch.transcoders;
 
 public interface Metricable {
-
+	public String toString();
 }

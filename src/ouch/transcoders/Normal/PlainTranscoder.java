@@ -32,6 +32,12 @@ import ouch.transcoders.Transformable;
  *
  */
 public class PlainTranscoder implements Transformable {
+		static class PlainMetrics implements Metricable {
+			public String toString() {
+				return "nothing changed";
+			}
+		}
+	
 
         @Override
         public String encode(TextReadable text) {
@@ -44,8 +50,7 @@ public class PlainTranscoder implements Transformable {
         }
 
 		@Override
-		public Metricable getLastDiff() {
-			// TODO Auto-generated method stub
-			return null;
+		public Metricable getLastDiff() {			
+			return (new PlainMetrics());
 		}
 }

@@ -11,8 +11,29 @@ import ouch.transcoders.EitherUpperOrLowerable.StringFormat;
 import ouch.transcoders.Metricable;
 
 public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerable {	
+	static class LeetspeakMetrics {
+		public LeetspeakMetrics() {
+			this.substitutedCharactersAmount = 0;
+		}
+		
+		int substitutedCharactersAmount;
+		
+		public int getSubstitutedCharactersAmount() {
+			return this.substitutedCharactersAmount;
+		}
+		
+		public void increaseSubstitutedCharacterAmount() {
+			this.substitutedCharactersAmount++;
+		}
+		
+		public String toString() {
+			return "Substituted characters:" + "\t" + Integer.toString(this.substitutedCharactersAmount);
+		}
+	}
+	
 	private StringFormat encodeFormat;
 	private StringFormat decodeFormat;
+	private LeetspeakMetrics lastMetric = null;	
 	
 	private static HashMap<Character, String> LEET_MAP;
 	
@@ -101,6 +122,7 @@ public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerabl
 	@Override
 	public String encode(TextReadable text) {
 		String ret = "";
+		this.lastMetric = new LeetspeakMetrics();		
 
 		try {
 			byte[] textToEncode = null;			
@@ -116,6 +138,7 @@ public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerabl
 			for (int i = 0; i < textToEncode.length; i++) {
 				char charToEncode = (char) (textToEncode[i] & 0xFF);
 				ret += LEET_MAP.get(Character.toUpperCase(charToEncode));
+				this.lastMetric.increaseSubstitutedCharacterAmount();
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -140,24 +163,27 @@ public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerabl
 		ret = "",	
 		morseCodeUntilNow = "",
 		textToDecode = text.getEntireString();
+		
+		this.lastMetric = new LeetspeakMetrics();		
 					
-	for (int i = 0; i < textToDecode.length(); i++) {
-		morseCodeUntilNow += textToDecode.charAt(i);
-		Character adding = getCharacterForString(morseCodeUntilNow);
-		if (adding != null) {			
-			switch(this.encodeFormat) {
-				case UPPER:
-					ret += Character.toUpperCase(adding);
-					break;
-				case LOWER:
-					ret += Character.toLowerCase(adding);
-					break;
-			}	
-			morseCodeUntilNow = "";
-		}
-	}		
+		for (int i = 0; i < textToDecode.length(); i++) {
+			morseCodeUntilNow += textToDecode.charAt(i);
+			Character adding = getCharacterForString(morseCodeUntilNow);
+			if (adding != null) {			
+				switch(this.encodeFormat) {
+					case UPPER:
+						ret += Character.toUpperCase(adding);
+						break;
+					case LOWER:
+						ret += Character.toLowerCase(adding);
+						break;
+				}
+				this.lastMetric.increaseSubstitutedCharacterAmount();
+				morseCodeUntilNow = "";
+			}
+		}		
 	
-	return ret;
+		return ret;
 	}
 
 	@Override
