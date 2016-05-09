@@ -1,6 +1,7 @@
 package ouch.transcoders.Compressions;
 
 import ouch.Readers.TextReadable;
+import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
 
 public class HuffmannTranscoder implements Transformable {
@@ -13,6 +14,12 @@ public class HuffmannTranscoder implements Transformable {
 
 	@Override
 	public String decode(TextReadable text) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metricable getLastDiff() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -30,6 +30,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import ouch.Readers.*;
 import ouch.transcoders.*;
+import ouch.transcoders.Normal.MorseCodeTranscoder;
 import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.fun.*;
 
@@ -71,15 +72,19 @@ public class TextUI {
             String input = this.arguments.get(0);
             if (this.inputEncoding.equals("mirrored")) {
                 input = (new MirroredTranscoder().decode(new StringReader(this.arguments.get(0))));;
+            } else if (this.inputEncoding.equals("morse")) {
+                input = (new MorseCodeTranscoder().decode(new StringReader(this.arguments.get(0))));;
             }
             reader = new StringReader(input);
         } else {
-            reader = new StringReader(this.arguments.get(0));
+            reader = new FileTextReader(this.filename);
         }
 
         Transformable transcoder = new PlainTranscoder();
         if (this.outputEncoding.equals("mirrored")) {
             transcoder = new MirroredTranscoder();
+        } else if (this.outputEncoding.equals("morse")) {
+            transcoder = new MorseCodeTranscoder();
         }
         System.out.println(transcoder.encode(reader));
     }

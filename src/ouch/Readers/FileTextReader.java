@@ -66,12 +66,7 @@ public class FileTextReader implements TextReadable {
 		}
 		
 		return ret;
-	}
-	
-	public Metricable getMetrics() {
-		// TODO Read the metrics and return them
-		return null;
-	}
+	}	
 	
 	@Override
 	public String getCharset() {

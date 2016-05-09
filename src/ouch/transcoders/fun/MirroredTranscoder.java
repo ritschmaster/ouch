@@ -22,6 +22,7 @@
 package ouch.transcoders.fun;
 
 import ouch.Readers.TextReadable;
+import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
 
 /**
@@ -40,6 +41,12 @@ public class MirroredTranscoder implements Transformable {
 	@Override
 	public String decode(TextReadable text) {
 		return encode(text);
+	}
+
+	@Override
+	public Metricable getLastDiff() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

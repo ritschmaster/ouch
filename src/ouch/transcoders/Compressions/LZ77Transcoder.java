@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import ouch.Readers.StringReader;
 import ouch.Readers.TextReadable;
 import ouch.tools.FixedSizeStack;
+import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
 
 public class LZ77Transcoder implements Transformable {
@@ -180,5 +181,11 @@ public class LZ77Transcoder implements Transformable {
 			
 			this.str =  new String(c);
 		}
+	}
+
+	@Override
+	public Metricable getLastDiff() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

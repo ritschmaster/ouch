@@ -5,14 +5,11 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import ouch.Readers.TextReadable;
+import ouch.transcoders.EitherUpperOrLowerable;
+import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
 
-public class MorseCodeTranscoder implements Transformable {
-	public enum StringFormat {
-			UPPER,
-			LOWER
-	}
-	
+public class MorseCodeTranscoder implements Transformable, EitherUpperOrLowerable {	
 	private static HashMap<Character, String> MORSE_MAP;
 	
 	private StringFormat encodeFormat;
@@ -139,6 +136,22 @@ public class MorseCodeTranscoder implements Transformable {
 		}		
 		
 		return ret;
+	}
+
+	@Override
+	public StringFormat getDecodeFormat() {
+		return this.decodeFormat;
+	}
+
+	@Override
+	public StringFormat getEncodeFormat() {
+		return this.encodeFormat;
+	}
+
+	@Override
+	public Metricable getLastDiff() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

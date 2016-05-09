@@ -65,12 +65,6 @@ public class StringReader implements TextReadable {
 		this.currentPosInBytesOfText = 0;
 		this.endReached = false;
 	}
-
-	@Override
-	public Metricable getMetrics() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public String getCharset() {

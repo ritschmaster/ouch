@@ -3,8 +3,9 @@ package ouch.tests.transcoders;
 import org.junit.Before;
 import org.junit.Test;
 
+import ouch.transcoders.*;
 import ouch.transcoders.Normal.MorseCodeTranscoder;
-import ouch.transcoders.Normal.MorseCodeTranscoder.StringFormat;
+
 
 public class MorseCoderTranscoderTest extends TranscoderTest {
 	@Before
@@ -16,12 +17,14 @@ public class MorseCoderTranscoderTest extends TranscoderTest {
 
 	 @Test
 	public void testEncode() {	
-		super.testEncode(new MorseCodeTranscoder(StringFormat.LOWER, StringFormat.LOWER));
+		super.testEncode(new MorseCodeTranscoder(EitherUpperOrLowerable.StringFormat.LOWER, 
+												 EitherUpperOrLowerable.StringFormat.LOWER));
 	}
 
 	 @Test
 	public void testDecode() {		
-		super.testDecode(new MorseCodeTranscoder(StringFormat.LOWER, StringFormat.LOWER));
+		super.testDecode(new MorseCodeTranscoder(EitherUpperOrLowerable.StringFormat.LOWER, 
+												 EitherUpperOrLowerable.StringFormat.LOWER));
 	}	
 
 }

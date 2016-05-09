@@ -22,8 +22,6 @@
 
 package ouch.Readers;
 
-import ouch.transcoders.Metricable;
-
 public interface TextReadable {
 	public String getEntireString();
 	
@@ -41,9 +39,7 @@ public interface TextReadable {
 	/**
 	 * Resets the reading for the bytes. This means that getNextBytes() starts with the first bytes again.
 	 */
-	public void resetByteReader();
-	
-	public Metricable getMetrics();
+	public void resetByteReader();	
 	
 	/**
 	 * @return The charset of this text.

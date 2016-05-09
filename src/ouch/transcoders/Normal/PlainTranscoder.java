@@ -22,6 +22,7 @@
 package ouch.transcoders.Normal;
 
 import ouch.Readers.TextReadable;
+import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
 
 /**
@@ -41,4 +42,10 @@ public class PlainTranscoder implements Transformable {
         public String decode(TextReadable text) {
             return text.getEntireString();
         }
+
+		@Override
+		public Metricable getLastDiff() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

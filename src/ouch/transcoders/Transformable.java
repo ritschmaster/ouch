@@ -24,12 +24,16 @@ package ouch.transcoders;
 
 import ouch.Readers.TextReadable;
 
-public interface Transformable {
+public interface Transformable {	
 	
 	public String encode(TextReadable text);
 	
 	public String decode(TextReadable text);
 	
-	
+	/**
+	 * 
+	 * @return The metrics of last  decode or encode call.
+	 */
+	public Metricable getLastDiff();
 
 }
