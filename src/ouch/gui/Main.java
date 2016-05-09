@@ -1,9 +1,7 @@
 /************************************************************************
- * Copyright (C) 2016
- * Richard Paul Bäck <richard.baeck@free-your-pc.com>
- * Dominik Koller <kollerdominik@icloud.com>
- * Alexander Kopp <alexander.kopp@gmx.at>
- * Zhe Wu <wuzhe1996@gmail.com>
+ * Copyright (C) 2016 Richard Paul Bäck <richard.baeck@free-your-pc.com>
+ * 					  Dominik Koller <kollerdominik@icloud.com>
+ * 					  Alexander Kopp <alexander.kopp@gmx.at>
  *
  * This file is part of OUCH.
  *
