@@ -32,6 +32,12 @@ public interface TextReadable {
 	public byte[] getNextBytes(int amount);
 	
 	/**
+	 * @param amount The amount of lines you want to read
+	 * @return Returns the next line if available, else returns null
+	 */
+	public char[] getNextLines(int noOfLines);
+	
+	/**
 	 * @return True when there are still bytes left to read 
 	 */
 	public boolean canReadBytes();
