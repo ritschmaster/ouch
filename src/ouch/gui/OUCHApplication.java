@@ -19,19 +19,19 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-//package ouch.gui;
-//
-//import javafx.application.Application;
-//import javafx.stage.Stage;
-//
-//public class OUCHApplication extends Application {
-//
-//	@Override
-//	public void start(Stage primaryStage) {
-//		
-//	}
-//
-//	public static void main(String[] args) {
-//		launch(args);
-//	}
-//}
+package ouch.gui;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class OUCHApplication extends Application {
+
+	@Override
+	public void start(Stage primaryStage) {
+		
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
