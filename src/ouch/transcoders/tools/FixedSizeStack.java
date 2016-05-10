@@ -1,7 +1,7 @@
-package ouch.tools;
+package ouch.transcoders.tools;
 
 import java.util.Stack;
-
+//TODO (if time) better data structure
 public class FixedSizeStack<E> extends Stack<E> {
 
 	private static final long serialVersionUID = 285604025862597850L;

@@ -1,7 +1,9 @@
+
 /************************************************************************
  * Copyright (C) 2016 Richard Paul Bäck <richard.baeck@free-your-pc.com>
  * 					  Dominik Koller <kollerdominik@icloud.com>
  * 					  Alexander Kopp <alexander.kopp@gmx.at>
+ * 					  Zhe Wu <wuzhe1996@gmail.com>
  *
  * This file is part of OUCH.
  *
@@ -22,19 +24,18 @@
 package ouch.transcoders.Compressions;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.LinkedList;
 
 import ouch.Readers.TextReadable;
-import ouch.tools.FixedSizeStack;
+import ouch.transcoders.tools.FixedSizeStack;
 import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
 
 public class LZ77Transcoder implements Transformable {
 	
-	private static final int SEARCH_BUFFER_SIZE = 4094; //A larger number means better compression, but worse performance (MAX  4Kb - 1 Byte)
+	private static final int SEARCH_BUFFER_SIZE = 1024; //A larger number means better compression, but worse performance (MAX  4KB - 1 Byte)
 	private static final int LOOKAHEAD_BUFFER_SIZE = 15; //maximum length (4 bit)
-	private static final char	FILE_SEPERATOR = (char) 28;
+	private static final char FILE_SEPERATOR = (char) 28;
 	
 	private StringBuilder outString;
 
@@ -45,27 +46,28 @@ public class LZ77Transcoder implements Transformable {
 		
 		//fill look ahead buffer
 		//TODO DEBUG
-		Timestamp t1 =  new Timestamp(System.currentTimeMillis());
-		System.out.println("START      : " + t1);
+//		Timestamp t1 =  new Timestamp(System.currentTimeMillis());
+//		System.out.println("START      : " + t1);
 		//DEBUG
 		
 		//FIXME bottleneck!!
 		char[] chars = text.getEntireString().toCharArray();
 		
 		//TODO DEBUG
-		System.out.println("GOT CHARS  : " + new Timestamp(System.currentTimeMillis()));
+		//System.out.println("GOT CHARS  : " + new Timestamp(System.currentTimeMillis()));
 		//DEBUG
 		
 		for (char c : chars) {
 			lookAheadBuffer.add(c);
 		}
 		lookAheadBuffer.add(FILE_SEPERATOR);
-		Timestamp t2 =  new Timestamp(System.currentTimeMillis());
-		System.out.println("BUFFER FLLD: " + t2);
+		//TODO DEBUG
+//		Timestamp t2 =  new Timestamp(System.currentTimeMillis());
+//		System.out.println("BUFFER FLLD: " + t2);
+		//DEBUG
 		
 		//FIXME bottleneck!!
-		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);
-		
+		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);		
 		long lng = 0;
 		
 		while (lookAheadBuffer.size() > 0) {
@@ -75,9 +77,9 @@ public class LZ77Transcoder implements Transformable {
 		    //search buffer for best (longest) result
 		    
 		    //TODO DEBUG
-		    if (lookAheadBuffer.size() > 4000 && (lng % 10000 == 0 || lng % 10001 == 0)) {
-		    	System.out.println("BEGIN SRCH  : " + new Timestamp(System.currentTimeMillis()));
-		    }
+//		    if (lookAheadBuffer.size() > 4000 && (lng % 10000 == 0 || lng % 10001 == 0)) {
+//		    	System.out.println("BEGIN SRCH  : " + new Timestamp(System.currentTimeMillis()));
+//		    }
 		    lng++;
 		    //DEBUG
 		    
@@ -87,10 +89,11 @@ public class LZ77Transcoder implements Transformable {
 		    	
 		    	if (lookAheadBuffer.getFirst() == searchBuffer.get(i)) {
 		    		newIndex = searchBuffer.size() - i;
+		    		//newIndex = i+1;
 		    		newLength++;
 		
-		    		
-		    		while((newLength < lookAheadBuffer.size()) && (i+newLength < searchBuffer.size()) && (lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) {	    			
+		    		while((newLength < lookAheadBuffer.size()) && (i+newLength < searchBuffer.size()) && (lookAheadBuffer.get(newLength) == searchBuffer.get(i+newLength))) { 
+		    		//while((newLength < lookAheadBuffer.size()) && (newIndex-newLength < searchBuffer.size()) && (lookAheadBuffer.get(newLength) == searchBuffer.get(newIndex-newLength))) {	    			
 		    			if (newLength >= 15)  {
 		    				break;
 		    			} else {
@@ -98,6 +101,8 @@ public class LZ77Transcoder implements Transformable {
 		    			}
 		    		}
 		    		
+		    		
+	    		
 		    		
 		    		if (newLength >= length) {
 		    			length = newLength;
@@ -112,9 +117,9 @@ public class LZ77Transcoder implements Transformable {
 		    }
 
 		    //TODO DEBUG
-		    if (lookAheadBuffer.size() > 4000 && (lng % 10000 == 0 || lng % 10001 == 0)) {
-		    	System.out.println("END SEARCH  : " + new Timestamp(System.currentTimeMillis()));
-		    }
+//		    if (lookAheadBuffer.size() > 4000 && (lng % 10000 == 0 || lng % 10001 == 0)) {
+//		    	System.out.println("END SEARCH  : " + new Timestamp(System.currentTimeMillis()));
+//		    }
 		    //DEBUG
 		    
 		    if (index != 0 && length > 0) {
@@ -132,7 +137,8 @@ public class LZ77Transcoder implements Transformable {
 		    	//System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
 		    }	
 		}
-		System.out.println("END        : " + new Timestamp(System.currentTimeMillis()));
+//		System.out.println("END        : " + new Timestamp(System.currentTimeMillis()));
+//		System.out.println();
 		return outString.toString();
 	}
 	
@@ -169,6 +175,7 @@ public class LZ77Transcoder implements Transformable {
 //		String out = trc.decode(new StringReader(s));
 //		System.out.println("BEFORE: " + str3);
 //		System.out.println("AFTER:  " + out);
+//
 //		
 //	}
 

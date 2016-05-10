@@ -24,6 +24,7 @@ package ouch.Readers;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -31,9 +32,34 @@ import ouch.transcoders.Metricable;
 
 public class FileTextReader implements TextReadable {
 	private String path;
+	private boolean endReached;
+	private String line;
+	BufferedReader reader;
 	
 	public FileTextReader(String path) {
 		this.path = path;
+		this.endReached = false;
+		try {
+			reader = new BufferedReader(new FileReader(new File(this.path)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		tryReadLine();
+	}
+	
+	private void tryReadLine() {
+		String s = null;
+		try {
+			s = reader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if (s == null) {
+			endReached = true;
+		}
+		this.line = s;
+		
 	}
 	
 
@@ -41,6 +67,28 @@ public class FileTextReader implements TextReadable {
 		// TODO Read the file and return a certain amount of bytes
 		return null;
 	}
+	
+	@Override
+	public char[] getNextLines(int noOfLines) {
+		if (endReached || noOfLines == 0) {
+			return null;
+		} else if (noOfLines == 1) {
+			String s = line + "\n";
+			tryReadLine();
+			return s.toCharArray();
+		} else {
+			StringBuilder sb = new StringBuilder();
+			while (!endReached && noOfLines > 0) {
+				sb.append(line);
+				sb.append("\n");
+				tryReadLine();
+				noOfLines--;
+			}
+			return sb.toString().toCharArray();
+		}
+		
+	}
+
 
 	public boolean canReadBytes() {
 		// TODO Auto-generated method stub
@@ -55,7 +103,7 @@ public class FileTextReader implements TextReadable {
 		String ret = "";
 		
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(new File(this.path)));
+			BufferedReader lazyReader = new BufferedReader(new FileReader(new File(this.path)));
 			
 			String line;
 			while ((line = reader.readLine()) != null) {

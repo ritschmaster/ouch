@@ -31,6 +31,7 @@ public class StringReader implements TextReadable {
 	private String charset;
 	private int currentPosInBytesOfText;
 	private boolean endReached;
+	private int currentPosinCharsOfText;
 	
 	public StringReader(String text) {
 		this(text, "US-ASCII");
@@ -46,6 +47,7 @@ public class StringReader implements TextReadable {
 		this.text = text;
 		this.endReached = false;
 		this.currentPosInBytesOfText = 0;
+		this.currentPosinCharsOfText = 0;
 	}
 
 	@Override
@@ -76,6 +78,31 @@ public class StringReader implements TextReadable {
 		return textAsBytes;
 	}
 
+	@Override
+	public char[] getNextLines(int noOfLines) {
+		if (currentPosinCharsOfText >= text.length()) {
+			return null;
+		} else {
+			StringBuilder sb = new StringBuilder();
+			for (;currentPosinCharsOfText < text.length(); currentPosinCharsOfText++) {
+				char c = text.charAt(currentPosinCharsOfText);
+				sb.append(c);
+				
+				if (c == '\n') {
+					noOfLines--;
+				}
+				if (noOfLines <= 0) {
+					currentPosinCharsOfText++;
+					break;
+				}
+			}
+			return sb.toString().toCharArray();
+			
+			
+		}
+		
+	}
+	
 	@Override
 	public boolean canReadBytes() {
 		return this.endReached;
