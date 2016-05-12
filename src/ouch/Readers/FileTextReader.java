@@ -32,16 +32,20 @@ import ouch.transcoders.Metricable;
 
 public class FileTextReader implements TextReadable {
 	private String path;
-	private boolean endReached;
+	private boolean lrEndReached;
+	private boolean crEndReached;
 	private String line;
-	BufferedReader reader;
+	BufferedReader lineReader;
+	BufferedReader charReader;
 	
 	public FileTextReader(String path) {
 		this.path = path;
-		this.endReached = false;
+		this.lrEndReached = false;
+		this.crEndReached = false;
 		try {
-			reader = new BufferedReader(new FileReader(new File(this.path)));
-		} catch (FileNotFoundException e) {
+			lineReader = new BufferedReader(new FileReader(new File(this.path)));
+			charReader = new BufferedReader(new FileReader(new File(this.path)));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		tryReadLine();
@@ -50,13 +54,18 @@ public class FileTextReader implements TextReadable {
 	private void tryReadLine() {
 		String s = null;
 		try {
-			s = reader.readLine();
+			s = lineReader.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		if (s == null) {
-			endReached = true;
+			lrEndReached = true;
+			try {
+				lineReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		this.line = s;
 		
@@ -70,7 +79,7 @@ public class FileTextReader implements TextReadable {
 	
 	@Override
 	public char[] getNextLines(int noOfLines) {
-		if (endReached || noOfLines == 0) {
+		if (lrEndReached || noOfLines == 0) {
 			return null;
 		} else if (noOfLines == 1) {
 			String s = line + "\n";
@@ -78,7 +87,7 @@ public class FileTextReader implements TextReadable {
 			return s.toCharArray();
 		} else {
 			StringBuilder sb = new StringBuilder();
-			while (!endReached && noOfLines > 0) {
+			while (!lrEndReached && noOfLines > 0) {
 				sb.append(line);
 				sb.append("\n");
 				tryReadLine();
@@ -87,6 +96,33 @@ public class FileTextReader implements TextReadable {
 			return sb.toString().toCharArray();
 		}
 		
+	}
+	
+	@Override
+	public char[] getNextChars(int amount) {
+		StringBuilder sb = new StringBuilder(amount);
+		
+		if (crEndReached) {
+			return null;
+		} else {
+			for (int i = 0; i <= amount; i++) {
+				int chr;
+				try {
+					chr = charReader.read();
+
+					if (chr == -1) {
+						crEndReached = true;
+						return null;
+					} else {
+						sb.append((char) chr);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+			
+		return sb.toString().toCharArray();
 	}
 
 
@@ -101,17 +137,26 @@ public class FileTextReader implements TextReadable {
 	
 	public String getEntireString() {		
 		String ret = "";
+		BufferedReader lazyReader = null;
 		
 		try {
-			BufferedReader lazyReader = new BufferedReader(new FileReader(new File(this.path)));
+			lazyReader = new BufferedReader(new FileReader(new File(this.path)));
 			
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while ((line = lazyReader.readLine()) != null) {
 				ret += line;
+				ret += '\n';
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				lazyReader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
 		
 		return ret;
 	}	

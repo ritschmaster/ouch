@@ -26,6 +26,7 @@ package ouch.transcoders.Compressions;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 
+import ouch.Readers.StringReader;
 import ouch.Readers.TextReadable;
 import ouch.transcoders.tools.FixedSizeStack;
 import ouch.transcoders.Metricable;
@@ -33,34 +34,53 @@ import ouch.transcoders.Transformable;
 
 public class LZ77Transcoder implements Transformable {
 	
-	private static final int SEARCH_BUFFER_SIZE = 1024; //A larger number means better compression, but worse performance (MAX  4KB - 1 Byte)
+	private static final int SEARCH_BUFFER_SIZE = 4094; //A larger number means better compression, but worse performance (MAX  4KB - 1 Byte)
 	private static final int LOOKAHEAD_BUFFER_SIZE = 15; //maximum length (4 bit)
 	private static final char FILE_SEPERATOR = (char) 28;
 	
+	
+	private boolean endReached;
 	private StringBuilder outString;
 
 	@Override
 	public String encode(TextReadable text) {
 		outString = new StringBuilder();
 		LinkedList<Character> lookAheadBuffer = new LinkedList<Character>();
+		endReached = false;
 		
 		//fill look ahead buffer
 		//TODO DEBUG
-//		Timestamp t1 =  new Timestamp(System.currentTimeMillis());
-//		System.out.println("START      : " + t1);
+		Timestamp t1 =  new Timestamp(System.currentTimeMillis());
+		System.out.println("START      : " + t1);
 		//DEBUG
 		
 		//FIXME bottleneck!!
-		char[] chars = text.getEntireString().toCharArray();
+		//char[] chars = text.getEntireString().toCharArray();
+		
 		
 		//TODO DEBUG
 		//System.out.println("GOT CHARS  : " + new Timestamp(System.currentTimeMillis()));
 		//DEBUG
 		
-		for (char c : chars) {
-			lookAheadBuffer.add(c);
+		while (lookAheadBuffer.size() <= LOOKAHEAD_BUFFER_SIZE && !endReached) {
+			char[] chars = text.getNextLines(1);
+			
+			if (chars != null) {
+				for (char c : chars) {
+					lookAheadBuffer.add(c);
+				}
+			} else {
+				lookAheadBuffer.add(FILE_SEPERATOR);
+				endReached = true;
+				System.out.println("END!!");
+				break;
+			}
 		}
-		lookAheadBuffer.add(FILE_SEPERATOR);
+		
+//		for (char c : chars) {
+//			lookAheadBuffer.add(c);
+//		}
+//		lookAheadBuffer.add(FILE_SEPERATOR);
 		//TODO DEBUG
 //		Timestamp t2 =  new Timestamp(System.currentTimeMillis());
 //		System.out.println("BUFFER FLLD: " + t2);
@@ -136,15 +156,30 @@ public class LZ77Transcoder implements Transformable {
 		    	outString.append(new Triple(0,0, c).str);
 		    	//System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
 		    }	
+		    
+		    while (lookAheadBuffer.size() <= LOOKAHEAD_BUFFER_SIZE && !endReached) {
+				char[] chars = text.getNextLines(1);
+				if (chars != null) {
+					for (char c : chars) {
+						lookAheadBuffer.add(c);
+					}
+				} else {
+					lookAheadBuffer.add(FILE_SEPERATOR);
+					endReached = true;
+					break;
+				}
+			}
 		}
-//		System.out.println("END        : " + new Timestamp(System.currentTimeMillis()));
-//		System.out.println();
+		System.out.println("END        : " + new Timestamp(System.currentTimeMillis()));
+		System.out.println();
 		return outString.toString();
 	}
 	
 	@Override
 	public String decode(TextReadable text) {
+		System.out.println("START DEC    : " + new Timestamp(System.currentTimeMillis()));
 		String input = text.getEntireString();
+		System.out.println("GOT STRING   : " + new Timestamp(System.currentTimeMillis()));
 		outString = new StringBuilder();
 		
 		for (int i = 0; i < input.length(); i = i + 3) {
@@ -160,24 +195,26 @@ public class LZ77Transcoder implements Transformable {
 			}
 			outString.append(t.followChar);
 		}
+		System.out.println("END DEC      : " + new Timestamp(System.currentTimeMillis()));
+
 		return outString.toString();
 	}
 	
-//	public static void main(String[] args) {			
-//		//Quick Test - semms to work TODO: write Unit-Test
-//		LZ77Transcoder trc = new LZ77Transcoder();
-//		String str = "The long-string instrument is an instrument in which the string is of such a length that the fundamental transverse wave is below what a person can hear as a tone (±20 Hz). If the tension and the length result in sounds with such a frequency, the tone becomes a beating frequency that ranges from a short reverb (approx 5–10 meters) to longer echo sounds (longer than 10 meters). Besides the beating frequency, the string also gives higher pitched natural overtones. Since the length is that long, this has an effect on the attack tone. The attack tone shoots through the string in a longitudinal wave and generates the typical science-fiction laser-gun sound as heard in Star Wars.[1] The sound is also similar to that occurring in upper electricity cables for trains (which are ready made long-string instruments in a way).";
-//		String str2 = "In Ulm, um Ulm, und um Ulm herum.";
-//		String str3 = "abracadabra";
-//				
-//				
-//		String s = trc.encode(new StringReader(str3));
-//		String out = trc.decode(new StringReader(s));
-//		System.out.println("BEFORE: " + str3);
-//		System.out.println("AFTER:  " + out);
-//
-//		
-//	}
+	public static void main(String[] args) {			
+		//Quick Test - semms to work TODO: write Unit-Test
+		LZ77Transcoder trc = new LZ77Transcoder();
+		String str = "The long-string instrument is an instrument in which the string is of such a length that the fundamental transverse wave is below what a person can hear as a tone (±20 Hz). If the tension and the length result in sounds with such a frequency, the tone becomes a beating frequency that ranges from a short reverb (approx 5–10 meters) to longer echo sounds (longer than 10 meters). Besides the beating frequency, the string also gives higher pitched natural overtones. Since the length is that long, this has an effect on the attack tone. The attack tone shoots through the string in a longitudinal wave and generates the typical science-fiction laser-gun sound as heard in Star Wars.[1] The sound is also similar to that occurring in upper electricity cables for trains (which are ready made long-string instruments in a way).";
+		String str2 = "In Ulm, um Ulm, und um Ulm herum.";
+		String str3 = "abracadabra";
+				
+				
+		String s = trc.encode(new StringReader(str2));
+		String out = trc.decode(new StringReader(s));
+		System.out.println("BEFORE: " + str2);
+		System.out.println("AFTER:  " + out);
+
+		
+	}
 
 	/*	Representing Triple (offset, length, character) for LZ77
 	 *  Output String encoded as follows:

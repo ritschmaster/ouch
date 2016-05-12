@@ -30,8 +30,9 @@ public class StringReader implements TextReadable {
 	private String text;
 	private String charset;
 	private int currentPosInBytesOfText;
+	private int currentPosInLinesOfText;
+	private int currentPosInCharsOfText;
 	private boolean endReached;
-	private int currentPosinCharsOfText;
 	
 	public StringReader(String text) {
 		this(text, "US-ASCII");
@@ -47,7 +48,8 @@ public class StringReader implements TextReadable {
 		this.text = text;
 		this.endReached = false;
 		this.currentPosInBytesOfText = 0;
-		this.currentPosinCharsOfText = 0;
+		this.currentPosInLinesOfText = 0;
+		this.currentPosInCharsOfText = 0;
 	}
 
 	@Override
@@ -80,19 +82,19 @@ public class StringReader implements TextReadable {
 
 	@Override
 	public char[] getNextLines(int noOfLines) {
-		if (currentPosinCharsOfText >= text.length()) {
+		if (currentPosInLinesOfText >= text.length()) {
 			return null;
 		} else {
 			StringBuilder sb = new StringBuilder();
-			for (;currentPosinCharsOfText < text.length(); currentPosinCharsOfText++) {
-				char c = text.charAt(currentPosinCharsOfText);
+			for (;currentPosInLinesOfText < text.length(); currentPosInLinesOfText++) {
+				char c = text.charAt(currentPosInLinesOfText);
 				sb.append(c);
 				
 				if (c == '\n') {
 					noOfLines--;
 				}
 				if (noOfLines <= 0) {
-					currentPosinCharsOfText++;
+					currentPosInLinesOfText++;
 					break;
 				}
 			}
@@ -101,6 +103,21 @@ public class StringReader implements TextReadable {
 			
 		}
 		
+	}
+	
+	@Override
+	public char[] getNextChars(int amount) {
+		//TODO
+		if (text.length() <= currentPosInCharsOfText+1) {
+			return null;
+		} else if (currentPosInCharsOfText + amount >= text.length()) {
+			amount = text.length() - currentPosInCharsOfText;
+		}
+		
+		String s = text.substring(currentPosInCharsOfText, currentPosInCharsOfText+amount);
+		currentPosInCharsOfText += amount;
+		
+		return s.toCharArray();
 	}
 	
 	@Override

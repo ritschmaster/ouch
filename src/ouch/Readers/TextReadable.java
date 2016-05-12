@@ -38,6 +38,13 @@ public interface TextReadable {
 	public char[] getNextLines(int noOfLines);
 	
 	/**
+	 * @param amount The amount of chars you want to read
+	 * @return Returns the next chars. If there are fewer available then requested the length of the returned array is less then the given amount.
+	 * 		   if none available returns null
+	 */
+	public char[] getNextChars(int amount);
+	
+	/**
 	 * @return True when there are still bytes left to read 
 	 */
 	public boolean canReadBytes();
