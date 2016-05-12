@@ -21,14 +21,27 @@
 
 package ouch.gui;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class OUCHApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		
+		primaryStage.setTitle("OUCH");
+	    try {
+			Pane myPane = (Pane) FXMLLoader.load(getClass().getResource(".fxml"));
+		    primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//	       Scene myScene = new Scene(myPane);
+//	       primaryStage.setScene(myScene);
+
 	}
 
 	public static void main(String[] args) {

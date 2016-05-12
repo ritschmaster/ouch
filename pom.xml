@@ -31,11 +31,22 @@
           <archive>
             <manifest>
               <mainClass>ouch.tui.Main</mainClass>
+              <!-- <mainClass>ouch.gui.Main</mainClass> -->
             </manifest>
             <manifestEntries>
               <Class-Path>/usr/share/java/args4j.jar</Class-Path>
+              <!-- <Class-Path>/usr/share/java/openjfx/jre/lib/ext/jfxrt.jar</Class-Path> -->
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.zenjava</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>8.4.0</version>
+        <configuration>
+          <mainClass>ouch.gui.Main</mainClass>
         </configuration>
       </plugin>
 
@@ -133,7 +144,6 @@
       </build>
     </profile>
   </profiles>
-
 
   <dependencies>
     <dependency>
