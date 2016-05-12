@@ -108,7 +108,7 @@ public class StringReader implements TextReadable {
 	@Override
 	public char[] getNextChars(int amount) {
 		//TODO
-		if (text.length() <= currentPosInCharsOfText+1) {
+		if (text.length() <= currentPosInCharsOfText) {
 			return null;
 		} else if (currentPosInCharsOfText + amount >= text.length()) {
 			amount = text.length() - currentPosInCharsOfText;

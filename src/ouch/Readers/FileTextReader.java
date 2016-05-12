@@ -102,14 +102,15 @@ public class FileTextReader implements TextReadable {
 	public char[] getNextChars(int amount) {
 		StringBuilder sb = new StringBuilder(amount);
 		
-		if (crEndReached) {
+		if (crEndReached || amount == 0) {
 			return null;
 		} else {
 			for (int i = 0; i <= amount; i++) {
 				int chr;
+				
 				try {
 					chr = charReader.read();
-
+		
 					if (chr == -1) {
 						crEndReached = true;
 						return null;
@@ -117,8 +118,10 @@ public class FileTextReader implements TextReadable {
 						sb.append((char) chr);
 					}
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 			}
 		}
 			
