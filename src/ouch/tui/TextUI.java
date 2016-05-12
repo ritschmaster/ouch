@@ -64,7 +64,7 @@ public class TextUI {
 
         } catch( CmdLineException e ) {
             System.err.println(e.getMessage());
-            System.err.println("java ouch [options...] arguments...");
+            System.err.println("java ouch [options...] [input-encoding]\n\nAvailable options:\n-i\tspecify input encoding\n-o\tspecify output encoding\n--file\tfilename (use the contents of the file as input)\n--metrics\tprint metrics\n\nAvailable encodings (for -i and -o):\n- plain (default for both)\n- mirrored\n- leetspeak\n- morse");
             parser.printUsage(System.err);
             System.err.println();
             return;
@@ -73,9 +73,11 @@ public class TextUI {
         TextReadable reader;
         String output = "";
         if (this.filename.equals(FILE_NOT_SUPPLIED)) {
-            String input = this.arguments.get(0);
+            String input = this.arguments.get(0);            
             if (this.inputEncoding.equals("mirrored")) {
                 input = (new MirroredTranscoder().decode(new StringReader(this.arguments.get(0))));;
+            } else if (this.inputEncoding.equals("leetspeak")) {
+                input = (new LeetspeakTranscoder().decode(new StringReader(this.arguments.get(0))));;
             } else if (this.inputEncoding.equals("morse")) {
                 input = (new MorseCodeTranscoder().decode(new StringReader(this.arguments.get(0))));;
             }
@@ -87,12 +89,15 @@ public class TextUI {
         Transformable transcoder = new PlainTranscoder();
         if (this.outputEncoding.equals("mirrored")) {
             transcoder = new MirroredTranscoder();
+        } else if (this.outputEncoding.equals("leetspeak")) {
+            transcoder = new LeetspeakTranscoder();
         } else if (this.outputEncoding.equals("morse")) {
             transcoder = new MorseCodeTranscoder();
-        }
+        }        
         output = transcoder.encode(reader);
         
-        System.out.println(transcoder.getLastDiff().toString());
+        if (this.metricsEnabled)
+        	System.out.println(transcoder.getLastDiff().toString());
         System.out.println(output);
     }
 }

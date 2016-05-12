@@ -32,7 +32,15 @@ import ouch.transcoders.Transformable;
  *
  */
 public class MirroredTranscoder implements Transformable {
-
+	static class MirroredMetrics implements Metricable {
+		public MirroredMetrics() {
+			
+		}		
+		public String toString() {
+			return "";
+		}
+	}
+	
 	@Override
 	public String encode(TextReadable text) {
 		return new StringBuilder(text.getEntireString().toString()).reverse().toString();		
@@ -45,8 +53,7 @@ public class MirroredTranscoder implements Transformable {
 
 	@Override
 	public Metricable getLastDiff() {
-		// TODO Auto-generated method stub
-		return null;
+		return (Metricable) (new MirroredMetrics());
 	}
 
 }

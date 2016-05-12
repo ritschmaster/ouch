@@ -32,7 +32,7 @@ import ouch.transcoders.EitherUpperOrLowerable.StringFormat;
 import ouch.transcoders.Metricable;
 
 public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerable {	
-	static class LeetspeakMetrics {
+	static class LeetspeakMetrics implements Metricable {
 		public LeetspeakMetrics() {
 			this.substitutedCharactersAmount = 0;
 		}
@@ -219,8 +219,7 @@ public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerabl
 
 	@Override
 	public Metricable getLastDiff() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.lastMetric;
 	}
 
 }
