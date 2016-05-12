@@ -24,19 +24,16 @@ package ouch.Readers;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
-import ouch.transcoders.Metricable;
 
 public class FileTextReader implements TextReadable {
 	private String path;
 	private boolean lrEndReached;
 	private boolean crEndReached;
 	private String line;
-	BufferedReader lineReader;
-	BufferedReader charReader;
+	private BufferedReader lineReader;
+	private BufferedReader charReader;
 	
 	public FileTextReader(String path) {
 		this.path = path;
@@ -113,15 +110,16 @@ public class FileTextReader implements TextReadable {
 		
 					if (chr == -1) {
 						crEndReached = true;
-						return null;
+						charReader.close();
+						break;
 					} else {
 						sb.append((char) chr);
+						
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 		}
 			

@@ -33,7 +33,7 @@ import ouch.transcoders.Transformable;
 
 public class LZ77Transcoder implements Transformable {
 	
-	private static final int SEARCH_BUFFER_SIZE = 4094; //A larger number means better compression, but worse performance (MAX  4KB - 1 Byte)
+	private static final int SEARCH_BUFFER_SIZE = 1024; //A larger number means better compression, but worse performance (MAX  4KB - 1 Byte)
 	private static final int LOOKAHEAD_BUFFER_SIZE = 15; //maximum length (4 bit)
 	private static final char FILE_SEPERATOR = (char) 28;
 	
@@ -112,8 +112,12 @@ public class LZ77Transcoder implements Transformable {
 		    //DEBUG
 		    
 		    if (index != 0 && length > 0) {
+		    	
+		    	//System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
+
+		    		
 	    		outString.append(new Triple(index, length, lookAheadBuffer.get(length)).str);
-	    		//System.out.print("(" + index + "," + length + "," + lookAheadBuffer.get(length) + ")");
+	    		
 
 		    	for (int j = 0; j <= length; j++) {
 		    		searchBuffer.push(lookAheadBuffer.removeFirst());	
@@ -126,7 +130,8 @@ public class LZ77Transcoder implements Transformable {
 		    	//System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
 		    }	
 	
-			refillLookAheadBuffer(LOOKAHEAD_BUFFER_SIZE - lookAheadBuffer.size(), text);
+		    //can't find problem, kinda fixed with increased amount
+			refillLookAheadBuffer(LOOKAHEAD_BUFFER_SIZE - lookAheadBuffer.size() + 1, text);
     	
 		}
 		//TODO DEBUG
@@ -140,13 +145,30 @@ public class LZ77Transcoder implements Transformable {
 	
 	//TODO
 	private void refillLookAheadBuffer(int amount, TextReadable text) {
-
+		char[] chars = text.getNextChars(amount);
+		
+		if (endReached) {
+			return;
+		} 
+		
+		if (chars == null) {
+			if (amount != 0) {
+				endReached = true;
+				lookAheadBuffer.add(FILE_SEPERATOR);
+			}
+		} else {
+			for (char c : chars) {
+				lookAheadBuffer.add(c);
+			}
+		}
 	}
 	
 	@Override
 	public String decode(TextReadable text) {
+		System.out.println("START DEC   : " + new Timestamp(System.currentTimeMillis()));
 		String input = text.getEntireString();
-		outString = new StringBuilder();
+		outString = new StringBuilder(input.length());
+		System.out.println("GOT STRING  : " + new Timestamp(System.currentTimeMillis()));
 		
 		for (int i = 0; i < input.length(); i = i + 3) {
 			Triple t = new Triple(input.substring(i, i+3));
@@ -157,6 +179,7 @@ public class LZ77Transcoder implements Transformable {
 				int endIndex = beginIndex + t.length;
 				
 				outString.append(outString.toString().substring(beginIndex, endIndex));	
+				
 			}
 			outString.append(t.followChar);
 		}
@@ -177,7 +200,7 @@ public class LZ77Transcoder implements Transformable {
 //		String out = trc.decode(new StringReader(s));
 //		System.out.println("BEFORE: " + str2);
 //		System.out.println("AFTER:  " + out);
-//		
+//
 //	}
 
 	/*	Representing Triple (offset, length, character) for LZ77
