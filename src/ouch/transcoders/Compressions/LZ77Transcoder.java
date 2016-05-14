@@ -134,7 +134,7 @@ public class LZ77Transcoder implements Transformable {
 		    	//System.out.print("(" + 0 + "," + 0 + "," + c + ")");	
 		    }	
 	
-		    //can't find problem, kinda fixed with increased amount
+		    //can't find problem, fixed with increased amount
 			refillLookAheadBuffer(LOOKAHEAD_BUFFER_SIZE - lookAheadBuffer.size() + 1, text);
     	
 		}
@@ -186,7 +186,7 @@ public class LZ77Transcoder implements Transformable {
 				//outString.append(outString.toString().substring(beginIndex, endIndex));	
 				//HOLY SHIT....
 				
-				for(;beginIndex < endIndex; beginIndex++) {
+				for(; beginIndex < endIndex; beginIndex++) {
 					outString.append(outString.charAt(beginIndex));
 				}
 
