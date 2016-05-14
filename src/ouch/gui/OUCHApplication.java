@@ -22,26 +22,30 @@
 package ouch.gui;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class OUCHApplication extends Application {
+	
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("OUCH");
-	    try {
-			Pane myPane = (Pane) FXMLLoader.load(getClass().getResource(".fxml"));
-		    primaryStage.show();
+		primaryStage.setTitle("FXML TableView Example");
+        
+		Pane myPane = null;
+		try {
+			
+			myPane = (Pane) FXMLLoader.load(getClass().getResource("../../main/resources/main_window.fxml"));
+			System.out.println(myPane);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//	       Scene myScene = new Scene(myPane);
-//	       primaryStage.setScene(myScene);
-
+       Scene myScene = new Scene(myPane);
+       primaryStage.setScene(myScene);
+       primaryStage.show();
 	}
 
 	public static void main(String[] args) {

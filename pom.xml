@@ -13,13 +13,24 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>tests</testSourceDirectory>
+
+    <resources>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.fxml</include>
+        </includes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.3</version>
         <configuration>
-          <source/>
-          <target/>
+          <source>8</source>
+          <target>8</target>
         </configuration>
       </plugin>
 
@@ -38,15 +49,6 @@
               <!-- <Class-Path>/usr/share/java/openjfx/jre/lib/ext/jfxrt.jar</Class-Path> -->
             </manifestEntries>
           </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>com.zenjava</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>8.4.0</version>
-        <configuration>
-          <mainClass>ouch.gui.Main</mainClass>
         </configuration>
       </plugin>
 
@@ -135,7 +137,7 @@
                   <goal>java</goal>
                 </goals>
                 <configuration>
-                  <mainClass>ouch.gui.Main</mainClass>
+                  <mainClass>ouch.gui.OUCHApplication</mainClass>
                 </configuration>
               </execution>
             </executions>
