@@ -62,6 +62,19 @@ public class LZ77TranscoderTest {
 		
 	}
 	
+	private String readCharsFromFile(int amount, FileTextReader rdr) {
+		StringBuilder in = new StringBuilder(amount);
+		char[] chars = null;
+		do {
+			chars = rdr.getNextChars(amount);
+			if (chars != null) {
+				in.append(new String(chars));
+			}	
+		} while (chars != null);
+		
+		return in.toString();
+	}
+	
 	@Test
 	public void testEncodeDecodeShortStrings() {
 		testEncodeDecode(SHORT_STRINGS);
@@ -73,20 +86,46 @@ public class LZ77TranscoderTest {
 	}
 	
 	@Test
-	public void testEncodeDecodeFile() {
+	public void testEncodeDecodeMediumFile() {
 		LZ77Transcoder t = new LZ77Transcoder();
 		FileTextReader rdr = new FileTextReader("tests/testfile");
-		//String in = rdr.getEntireString();
+		
+		
+		String in = readCharsFromFile(226800, new FileTextReader("tests/testfile"));
+		String s1 = t.encode(rdr);
+		String out = t.decode(new StringReader(s1));
+
+		assertEquals(in.length()+1,  out.length());
+		assertEquals(in + FILE_SEPERATOR, out);
+		
+		
+	}
+	
+	@Test
+	public void testEncodeDecodeSmallFile() {
+		LZ77Transcoder t = new LZ77Transcoder();
+		FileTextReader rdr = new FileTextReader("tests/small_file");
+
+		String in = readCharsFromFile(600,  new FileTextReader("tests/small_file"));
 		String s1 = t.encode(rdr);
 		String out = t.decode(new StringReader(s1));
 		
-		//System.out.println("ORIG CNT: " + in.length());
-		System.out.println("ENC  CNT: " + s1.length());
-		System.out.println("OUT  CNT: " + out.length());
+		assertEquals(in.length()+1,  out.length());
+		assertEquals(in.toString() + FILE_SEPERATOR, out);	
+
+	}
+	
+	@Test
+	public void testEncodeDecode1mbFile() {
+		LZ77Transcoder t = new LZ77Transcoder();
+		FileTextReader rdr = new FileTextReader("tests/1mb");
+
+		String in = readCharsFromFile(1050000,  new FileTextReader("tests/1mb"));
+		String s1 = t.encode(rdr);
+		String out = t.decode(new StringReader(s1));
 		
-		//assertEquals(in + FILE_SEPERATOR, out);
-		
-		
+		assertEquals(in.length()+1,  out.length());
+		assertEquals(in.toString() + FILE_SEPERATOR, out);	
 	}
 	
 
