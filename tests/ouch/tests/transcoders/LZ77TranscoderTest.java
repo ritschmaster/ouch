@@ -53,7 +53,7 @@ public class LZ77TranscoderTest {
 	protected String[] ENCODED_STRINGS = new String[3];	
 	
 	private void testEncodeDecode(String[] strings) {
-		for (String s : SHORT_STRINGS) {
+		for (String s : strings) {
 			LZ77Transcoder t = new LZ77Transcoder();
 			String s1 = t.encode(new StringReader(s));
 			String out = t.decode(new StringReader(s1));
@@ -97,8 +97,6 @@ public class LZ77TranscoderTest {
 
 		assertEquals(in.length()+1,  out.length());
 		assertEquals(in + FILE_SEPERATOR, out);
-		
-		
 	}
 	
 	@Test

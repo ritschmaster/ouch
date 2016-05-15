@@ -36,15 +36,19 @@ public class LZ77Transcoder implements Transformable {
 	private boolean endReached;
 	private StringBuilder outString;
 	LinkedList<Character> lookAheadBuffer;
+	LZ77Metrics metrics;
 	
 	public LZ77Transcoder() {
-		outString = new StringBuilder();
-		lookAheadBuffer = new LinkedList<Character>();
-		endReached = false;
+		this.outString = new StringBuilder();
+		this.lookAheadBuffer = new LinkedList<Character>();
+		this.endReached = false;
+		this.metrics = new LZ77Metrics();
 	}
 
 	@Override
 	public String encode(TextReadable text) {
+		metrics.reset();
+		metrics.setModeToEncode();
 		
 		//DEBUG
 		//Timestamp t1 =  new Timestamp(System.currentTimeMillis());
@@ -83,11 +87,12 @@ public class LZ77Transcoder implements Transformable {
 		    		if (newLength >= length) {
 		    			length = newLength;
 		    			index = newIndex;
+		    			if (length >= LOOKAHEAD_BUFFER_SIZE) {
+			    			break;
+			    		}
 		    		} 
 		    		
-		    		if (length >= LOOKAHEAD_BUFFER_SIZE) {
-		    			break;
-		    		}
+		    		
 		    	}
 		    }
 		    
@@ -112,7 +117,8 @@ public class LZ77Transcoder implements Transformable {
 		//System.out.println("END        : " + new Timestamp(System.currentTimeMillis()));
 		//System.out.println();
 		//DEBUG
-		
+		metrics.increaseSizeAfter(outString.length());
+		/*TEST*/System.out.println(this.getLastDiff().toString());
 		return outString.toString();
 	}
 		
@@ -133,12 +139,17 @@ public class LZ77Transcoder implements Transformable {
 				lookAheadBuffer.add(c);
 			}
 		}
+		
+		metrics.increaseSizeBefore(amount);
 	}
 	
 	@Override
 	public String decode(TextReadable text) {
+		metrics.reset();
+		metrics.setModeToDecode();
 		//System.out.println("START DEC   : " + new Timestamp(System.currentTimeMillis()));
 		String input = text.getEntireString();
+		metrics.increaseSizeBefore(input.length());
 		outString = new StringBuilder(input.length());
 		
 		for (int i = 0; i < input.length(); i = i + 3) {
@@ -156,7 +167,8 @@ public class LZ77Transcoder implements Transformable {
 		}
 		
 		//System.out.println("END DEC      : " + new Timestamp(System.currentTimeMillis()));
-
+		metrics.increaseSizeAfter(outString.length());
+		/*TEST*/System.out.println(this.getLastDiff());
 		return new String(outString);
 	}
 	
@@ -239,10 +251,68 @@ public class LZ77Transcoder implements Transformable {
 			this.str =  new String(c);
 		}
 	}
+	
+	private static class LZ77Metrics implements Metricable {
+		
+		private String mode;
+		private int sizeBefore;
+		private int sizeAfter;
+		
+		
+		public LZ77Metrics() {
+			reset();		
+		}
+		
+		public void reset() {
+			this.mode = null;
+			this.sizeBefore = 0;
+			this.sizeAfter = 0;
+		}
+		
+		public void setModeToEncode() {
+			this.mode = "En";
+		}
+		
+		public void setModeToDecode() {
+			this.mode = "De";
+		}
+		
+		public void increaseSizeBefore(int amount) {
+			this.sizeBefore += amount;
+		}
+		
+		public void increaseSizeAfter(int amount) {
+			this.sizeAfter += amount;
+		}
+		
+		private double calculateCompressionPercentage() {
+			
+			return (double)(100/(double)sizeBefore) * sizeAfter;
+		}
+
+		@Override
+		public String toString() {
+			
+			//TODO
+			StringBuilder sb = new StringBuilder();
+			sb.append(mode + "coding Statistics\n\n");
+			sb.append("Source  size: " + sizeBefore);
+			sb.append(" Characters\n");
+			sb.append(mode + "coded size: " + sizeAfter);
+			sb.append(" Characters\n\nSize of ");
+			sb.append(mode);
+			sb.append("coded String is " + calculateCompressionPercentage());
+			sb.append("% of the source one");
+			
+			
+			
+			return sb.toString();
+		}	
+	}
 
 	@Override
 	public Metricable getLastDiff() {
 		// TODO Auto-generated method stub
-		return null;
+		return metrics;
 	}
 }
