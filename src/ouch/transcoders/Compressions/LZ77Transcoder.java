@@ -124,6 +124,7 @@ public class LZ77Transcoder implements Transformable {
 		
 	private void refillLookAheadBuffer(int amount, TextReadable text) {
 		char[] chars = text.getNextChars(amount);
+		int i = 0;
 		
 		if (endReached) {
 			return;
@@ -133,14 +134,17 @@ public class LZ77Transcoder implements Transformable {
 			if (amount != 0) {
 				endReached = true;
 				lookAheadBuffer.add(FILE_SEPERATOR);
+				i++;
 			}
 		} else {
 			for (char c : chars) {
 				lookAheadBuffer.add(c);
+				i++;
 			}
 		}
 		
-		metrics.increaseSizeBefore(amount);
+		metrics.increaseSizeBefore(i);
+		
 	}
 	
 	@Override
