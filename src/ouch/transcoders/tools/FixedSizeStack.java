@@ -12,14 +12,18 @@ public class FixedSizeStack<E> extends Stack<E> {
     	this.maxSize = maxSize;
 	}
 
-	@Override
-	public E push(E item) {
-		
-		if (this.size() >= maxSize) {
+//	@Override
+//	public E push(E item) {
+//		
+//		
+//		
+//		return super.push(item);
+//	}
+	
+	public void trim() {
+		while (this.size() > maxSize) {
 			this.remove(0);
 		}
-		
-		return super.push(item);
 	}
     
     

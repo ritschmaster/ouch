@@ -28,9 +28,9 @@ import org.junit.Test;
 import ouch.Readers.FileTextReader;
 import ouch.Readers.StringReader;
 import ouch.transcoders.Compressions.LZ77Transcoder;
+import static ouch.transcoders.tools.LZ77Globals.*;
 
 public class LZ77TranscoderTest {
-	public static final char FILE_SEPERATOR = (char) 28;
 	public static final String[] SHORT_STRINGS = {
 			"hello world",
 			"abracadabra",
