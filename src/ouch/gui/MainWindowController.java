@@ -69,6 +69,8 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 	private TextArea NumberSystemInput;
 	@FXML
 	private TextArea NumberSystemOutput;
+	@FXML
+	private TextArea NumberSystemsMetrics;
 	
 	@FXML
 	private ChoiceBox<String> EncodingsChoiceInput;	
@@ -78,6 +80,8 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 	private TextArea EncodingsInput;
 	@FXML
 	private TextArea EncodingsOutput;
+	@FXML
+	private TextArea EncodingsMetrics;
 	
 	private Transformable inputTranscoder = new PlainTranscoder();
 	private Transformable outputTranscoder = new PlainTranscoder();
@@ -89,6 +93,7 @@ public class MainWindowController implements Initializable, TranscoderSetable {
         reader = new StringReader(output);
         output = this.outputTranscoder.encode(reader);
         this.EncodingsOutput.setText(output);
+        this.EncodingsMetrics.setText(this.outputTranscoder.getLastDiff().toString());
 	}
 
 	@Override

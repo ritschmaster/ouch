@@ -8,9 +8,9 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ouch.gui.MainWindowController">
+<VBox prefHeight="700.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ouch.gui.MainWindowController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar>
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -49,132 +49,174 @@
         </Menu>
       </menus>
     </MenuBar>
-    <TabPane prefHeight="376.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane prefHeight="700.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="Number Systems">
           <content>
-            <GridPane prefHeight="340.0" prefWidth="640.0">
+            <GridPane id="GridPane">
               <children>
-                <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                <GridPane prefHeight="624.0" prefWidth="640.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <children>
-                    <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" prefHeight="312.0" prefWidth="292.0">
+                    <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
                       <children>
-                        <VBox layoutX="0.0" layoutY="0.0" prefHeight="340.0" prefWidth="298.0">
+                        <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" prefHeight="312.0" prefWidth="292.0">
                           <children>
-                            <Label text="Input" />
-                            <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="298.0">
-                              <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="" />
-                                </FXCollections>
-                              </items>
-                            </ChoiceBox>
-                            <TextArea fx:id="NumberSystemInput" prefHeight="275.0" prefWidth="298.0" text="Type in your input here..." wrapText="true" />
+                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="340.0" prefWidth="298.0">
+                              <children>
+                                <Label text="Input" />
+                                <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="298.0">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="" />
+                                    </FXCollections>
+                                  </items>
+                                </ChoiceBox>
+                                <TextArea fx:id="NumberSystemInput" prefHeight="275.0" prefWidth="298.0" text="Type in your input here..." wrapText="true" />
+                              </children>
+                            </VBox>
                           </children>
-                        </VBox>
+                        </AnchorPane>
+                      </children>
+                    </AnchorPane>
+                    <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                      <children>
+                        <AnchorPane id="AnchorPane" layoutX="8.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="298.0">
+                          <children>
+                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="298.0">
+                              <children>
+                                <Label text="Output" />
+                                <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="298.0">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="Item 1" />
+                                    </FXCollections>
+                                  </items>
+                                </ChoiceBox>
+                                <TextArea id="NumberSystemInput" fx:id="NumberSystemOutput" editable="false" prefHeight="275.0" prefWidth="298.0" wrapText="true" />
+                              </children>
+                            </VBox>
+                          </children>
+                        </AnchorPane>
                       </children>
                     </AnchorPane>
                   </children>
-                </AnchorPane>
-                <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                </GridPane>
+                <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                   <children>
-                    <AnchorPane id="AnchorPane" layoutX="8.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="298.0">
+                    <VBox layoutX="14.0" layoutY="0.0" prefHeight="312.0" prefWidth="612.0">
                       <children>
-                        <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="298.0">
-                          <children>
-                            <Label text="Output" />
-                            <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="298.0">
-                              <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="Item 1" />
-                                </FXCollections>
-                              </items>
-                            </ChoiceBox>
-                            <TextArea id="NumberSystemInput" fx:id="NumberSystemOutput" editable="false" prefHeight="275.0" prefWidth="298.0" wrapText="true" />
-                          </children>
-                        </VBox>
+                        <Label text="Metrics" />
+                        <TextArea id="NumberSystemInput" fx:id="NumberSystemsMetrics" editable="false" prefHeight="275.0" prefWidth="496.0" wrapText="true" />
                       </children>
-                    </AnchorPane>
+                    </VBox>
                   </children>
                 </AnchorPane>
               </children>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="639.0" minHeight="10.0" prefHeight="339.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="331.0" minHeight="10.0" prefHeight="325.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
           </content>
         </Tab>
         <Tab text="Encodings">
           <content>
-            <GridPane prefHeight="340.0" prefWidth="640.0">
+            <GridPane id="GridPane">
               <children>
-                <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                <GridPane prefHeight="340.0" prefWidth="640.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <children>
-                    <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0">
+                    <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
                       <children>
-                        <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
+                        <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0">
                           <children>
-                            <Label text="Input" />
-                            <ChoiceBox id="" fx:id="EncodingsChoiceInput" prefWidth="292.0" value="Plain">
-                              <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="Plain" />
-                                  <String fx:value="Morse" />
-                                  <Separator />
-                                  <String fx:value="Mirrored" />
-                                  <String fx:value="Leetspeak" />
-                                  <Separator />
-                                  <String fx:value="Huffmann" />
-                                  <String fx:value="LZ77" />
-                                </FXCollections>
-                              </items>
-                            </ChoiceBox>
-                            <TextArea id="NumberSystemInput" fx:id="EncodingsInput" prefHeight="275.0" prefWidth="292.0" text="Type in your input here..." wrapText="true" />
+                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
+                              <children>
+                                <Label text="Input" />
+                                <ChoiceBox id="" fx:id="EncodingsChoiceInput" prefWidth="292.0" value="Plain">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="Plain" />
+                                      <String fx:value="Morse" />
+                                      <Separator />
+                                      <String fx:value="Mirrored" />
+                                      <String fx:value="Leetspeak" />
+                                      <Separator />
+                                      <String fx:value="Huffmann" />
+                                      <String fx:value="LZ77" />
+                                    </FXCollections>
+                                  </items>
+                                </ChoiceBox>
+                                <TextArea id="NumberSystemInput" fx:id="EncodingsInput" prefHeight="275.0" prefWidth="292.0" text="Type in your input here..." wrapText="true" />
+                              </children>
+                            </VBox>
                           </children>
-                        </VBox>
+                        </AnchorPane>
+                      </children>
+                    </AnchorPane>
+                    <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                      <children>
+                        <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0">
+                          <children>
+                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
+                              <children>
+                                <Label text="Output" />
+                                <ChoiceBox id="NumberSystemOutput" fx:id="EncodingsChoiceOutput" prefWidth="292.0" value="Plain">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="Plain" />
+                                      <String fx:value="Morse" />
+                                      <Separator />
+                                      <String fx:value="Mirrored" />
+                                      <String fx:value="Leetspeak" />
+                                      <Separator />
+                                      <String fx:value="Huffmann" />
+                                      <String fx:value="LZ77" />
+                                    </FXCollections>
+                                  </items>
+                                </ChoiceBox>
+                                <TextArea id="NumberSystemInput" fx:id="EncodingsOutput" editable="false" prefHeight="303.0" prefWidth="320.0" wrapText="true" />
+                              </children>
+                            </VBox>
+                          </children>
+                        </AnchorPane>
                       </children>
                     </AnchorPane>
                   </children>
-                </AnchorPane>
-                <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                </GridPane>
+                <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                   <children>
-                    <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0">
+                    <VBox layoutX="14.0" layoutY="0.0" prefHeight="312.0" prefWidth="612.0">
                       <children>
-                        <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
-                          <children>
-                            <Label text="Output" />
-                            <ChoiceBox id="NumberSystemOutput" fx:id="EncodingsChoiceOutput" prefWidth="292.0" value="Plain">
-                              <items>
-                                <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="Plain" />
-                                  <String fx:value="Morse" />
-                                  <Separator />
-                                  <String fx:value="Mirrored" />
-                                  <String fx:value="Leetspeak" />
-                                  <Separator />
-                                  <String fx:value="Huffmann" />
-                                  <String fx:value="LZ77" />
-                                </FXCollections>
-                              </items>
-                            </ChoiceBox>
-                            <TextArea id="NumberSystemInput" fx:id="EncodingsOutput" editable="false" prefHeight="303.0" prefWidth="320.0" wrapText="true" />
-                          </children>
-                        </VBox>
+                        <Label text="Metrics" />
+                        <TextArea id="NumberSystemInput" fx:id="EncodingsMetrics" editable="false" prefHeight="275.0" prefWidth="496.0" wrapText="true" />
                       </children>
-                    </AnchorPane>
+                    </VBox>
                   </children>
                 </AnchorPane>
               </children>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="496.0" minHeight="10.0" prefHeight="335.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="329.0" minHeight="10.0" prefHeight="329.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
           </content>
