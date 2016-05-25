@@ -61,17 +61,34 @@
                       <children>
                         <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" prefHeight="312.0" prefWidth="292.0">
                           <children>
-                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="340.0" prefWidth="298.0">
+                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
                               <children>
                                 <Label text="Input" />
-                                <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="298.0">
+                                <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="292.0" value = "Plain">
                                   <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                      <String fx:value="" />
+                                      <String fx:value="Plain" />
+                                      <String fx:value="2 [Binär]" />
+                                      <String fx:value="3" />
+                                      <String fx:value="4" />
+                                      <String fx:value="5" />
+                                      <String fx:value="6" />
+                                      <String fx:value="7" />
+                                      <String fx:value="8 [Oktal]" />
+                                      <String fx:value="9" />
+                                      <String fx:value="10 [Dezimal]" />
+                                      <String fx:value="11" />
+                                      <String fx:value="12 [Duodezimal]" />
+                                      <String fx:value="13" />
+                                      <String fx:value="14" />
+                                      <String fx:value="15" />
+                                      <String fx:value="16 [Hexadezimal]" />
+                                      <Separator />
+                                      <String fx:value="Roman Numbers" />
                                     </FXCollections>
                                   </items>
                                 </ChoiceBox>
-                                <TextArea fx:id="NumberSystemInput" prefHeight="275.0" prefWidth="298.0" text="Type in your input here..." wrapText="true" />
+                                <TextArea fx:id="NumberSystemInput" prefHeight="275.0" prefWidth="292.0" text="Type in your input here..." wrapText="true" />
                               </children>
                             </VBox>
                           </children>
@@ -80,19 +97,36 @@
                     </AnchorPane>
                     <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP">
                       <children>
-                        <AnchorPane id="AnchorPane" layoutX="8.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="298.0">
+                        <AnchorPane id="AnchorPane" layoutX="14.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0">
                           <children>
-                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="298.0">
+                            <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
                               <children>
                                 <Label text="Output" />
-                                <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="298.0">
+                                <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="292.0" value = "Plain">
                                   <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                      <String fx:value="Item 1" />
+                                      <String fx:value="Plain" />
+                                      <String fx:value="2 [Binär]" />
+                                      <String fx:value="3" />
+                                      <String fx:value="4" />
+                                      <String fx:value="5" />
+                                      <String fx:value="6" />
+                                      <String fx:value="7" />
+                                      <String fx:value="8 [Oktal]" />
+                                      <String fx:value="9" />
+                                      <String fx:value="10 [Dezimal]" />
+                                      <String fx:value="11" />
+                                      <String fx:value="12 [Duodezimal]" />
+                                      <String fx:value="13" />
+                                      <String fx:value="14" />
+                                      <String fx:value="15" />
+                                      <String fx:value="16 [Hexadezimal]" />
+                                      <Separator />
+                                      <String fx:value="Roman Numbers" />
                                     </FXCollections>
                                   </items>
                                 </ChoiceBox>
-                                <TextArea id="NumberSystemInput" fx:id="NumberSystemOutput" editable="false" prefHeight="275.0" prefWidth="298.0" wrapText="true" />
+                                <TextArea id="NumberSystemInput" fx:id="NumberSystemOutput" editable="false" prefHeight="275.0" prefWidth="292.0" wrapText="true" />
                               </children>
                             </VBox>
                           </children>
@@ -110,7 +144,7 @@
                 </GridPane>
                 <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                   <children>
-                    <VBox layoutX="14.0" layoutY="0.0" prefHeight="312.0" prefWidth="612.0">
+                    <VBox layoutX="14.0" layoutY="5.0" prefHeight="312.0" prefWidth="612.0">
                       <children>
                         <Label text="Metrics" />
                         <TextArea id="NumberSystemInput" fx:id="NumberSystemsMetrics" editable="false" prefHeight="275.0" prefWidth="496.0" wrapText="true" />
@@ -202,7 +236,7 @@
                 </GridPane>
                 <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="292.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                   <children>
-                    <VBox layoutX="14.0" layoutY="0.0" prefHeight="312.0" prefWidth="612.0">
+                    <VBox layoutX="14.0" layoutY="9.0" prefHeight="312.0" prefWidth="612.0">
                       <children>
                         <Label text="Metrics" />
                         <TextArea id="NumberSystemInput" fx:id="EncodingsMetrics" editable="false" prefHeight="275.0" prefWidth="496.0" wrapText="true" />
