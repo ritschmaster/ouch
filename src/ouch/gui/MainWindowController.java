@@ -119,10 +119,10 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 			NumberSystemTranscoder<String> numTranscoder = new NumberSystemTranscoder<>();
 	        numTranscoder.setSource(base);
 	        numTranscoder.setDestination(10);
-	        this.NumberSystemsMetrics.setText(numTranscoder.getLastDiff().toString());
 			RomanNumberTranscoder<String> romanTranscoder = new RomanNumberTranscoder<>();
 			StringReader getNumConverResult = new StringReader(numTranscoder.encode(reader));
 			this.NumberSystemOutput.setText(romanTranscoder.encode(getNumConverResult));
+			this.NumberSystemsMetrics.setText(romanTranscoder.getLastDiff().toString());
 		}
 		else if (base == -100){
 			NumberSystemTranscoder<String> numTranscoder = new NumberSystemTranscoder<>();
@@ -131,6 +131,7 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 			RomanNumberTranscoder<String> romanTranscoder = new RomanNumberTranscoder<>();
 			StringReader getRomanNumber = new StringReader(romanTranscoder.decode(reader));
 			this.NumberSystemOutput.setText(numTranscoder.encode(getRomanNumber));
+			this.NumberSystemsMetrics.setText(romanTranscoder.getLastDiff().toString());
 		}
 	}
 
