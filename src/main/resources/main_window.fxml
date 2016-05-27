@@ -51,7 +51,7 @@
     </MenuBar>
     <TabPane prefHeight="700.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
-        <Tab text="Number Systems">
+        <Tab text="Number Systems" fx:id = "numberSystemsTab">
           <content>
             <GridPane id="GridPane">
               <children>
@@ -64,10 +64,9 @@
                             <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
                               <children>
                                 <Label text="Input" />
-                                <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="292.0" value = "Plain">
+                                <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="292.0" value = "2 [Binär]">
                                   <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                      <String fx:value="Plain" />
                                       <String fx:value="2 [Binär]" />
                                       <String fx:value="3" />
                                       <String fx:value="4" />
@@ -102,10 +101,9 @@
                             <VBox layoutX="0.0" layoutY="0.0" prefHeight="312.0" prefWidth="292.0">
                               <children>
                                 <Label text="Output" />
-                                <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="292.0" value = "Plain">
+                                <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="292.0" value = "10 [Dezimal]">
                                   <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                      <String fx:value="Plain" />
                                       <String fx:value="2 [Binär]" />
                                       <String fx:value="3" />
                                       <String fx:value="4" />
@@ -163,7 +161,7 @@
             </GridPane>
           </content>
         </Tab>
-        <Tab text="Encodings">
+        <Tab text="Encodings" fx:id = "encodingsTab">
           <content>
             <GridPane id="GridPane">
               <children>
