@@ -34,7 +34,7 @@ public class OUCHApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("FXML TableView Example");
+		primaryStage.setTitle("OUCH Conversion Tool");
 		System.out.println(System.getProperty("user.dir"));		
         
 		Pane myPane = null;
