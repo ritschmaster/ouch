@@ -63,7 +63,6 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 					break;
 				case "LZ77":
 					transcoder = new LZ77Transcoder();
-					break;
 				}
 				if (this.isInputListener)
 					this.setter.setTranscoderInput(transcoder);
