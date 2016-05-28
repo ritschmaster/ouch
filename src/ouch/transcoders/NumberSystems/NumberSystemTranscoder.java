@@ -6,7 +6,7 @@ import java.util.Collections;
 import ouch.Readers.TextReadable;
 import ouch.transcoders.Metricable;
 
-public class NumberSystemTranscoder<T> implements NumbersystemTransformable {
+public class NumberSystemTranscoder implements NumbersystemTransformable {
 
   static class NumberSystemMetrics implements Metricable {
 	private long valueToCalc;
@@ -165,10 +165,10 @@ public class NumberSystemTranscoder<T> implements NumbersystemTransformable {
   private int base;
   private int destBase;
   private int numLength;
-  private T value;
+  private String value;
   private long valueToCalc = 0;
 
-  public NumberSystemTranscoder(T value) {
+  public NumberSystemTranscoder(String value) {
       this.value = value;
       numLength = getValueLength();
   }
@@ -270,7 +270,7 @@ public class NumberSystemTranscoder<T> implements NumbersystemTransformable {
 	@Override
 	public String encode(TextReadable text) {
 		String inputValue = text.getEntireString();
-		this.value = (T) inputValue;
+		this.value = inputValue.toUpperCase();
 		this.valueToCalc = numToDec();
 	    return convert();
 	}

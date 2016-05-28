@@ -6,7 +6,7 @@ import ouch.Readers.StringReader;
 import ouch.Readers.TextReadable;
 import ouch.transcoders.Metricable;
 
-public class RomanNumberTranscoder<T> implements NumbersystemTransformable {
+public class RomanNumberTranscoder implements NumbersystemTransformable {
 	static class RomanNumberMetrics implements Metricable {
 		private final int[][] valueIncr;
 		private final String result;
@@ -88,12 +88,12 @@ public class RomanNumberTranscoder<T> implements NumbersystemTransformable {
 			
 	}
 	
-	private T value;
+	private String value;
 	private int[][] valueIncrement;
 	private RomanNumberMetrics metric;
 	private String result;
 	
-	public RomanNumberTranscoder(T value) {
+	public RomanNumberTranscoder(String value) {
 		this.value = value;
 	}
 	
@@ -103,10 +103,11 @@ public class RomanNumberTranscoder<T> implements NumbersystemTransformable {
 
 	@Override
 	public String encode(TextReadable text) {
-		this.value = (T) text.getEntireString();
+		this.value = text.getEntireString();
 		StringBuffer result = new StringBuffer();
-		this.valueIncrement = new int[14][2];
-        Long value = valueToLong();
+		this.valueIncrement = new int[15][2];
+        double value = Long.parseLong(text.getEntireString());//valueToLong();
+        //result.append(Integer.parseInt(this.value)+"#####");
         while (value != 0) {
             if (value >= 10000) {
                 value -= 10000;
@@ -114,7 +115,7 @@ public class RomanNumberTranscoder<T> implements NumbersystemTransformable {
                 valueIncrement[0][0] += 1;
                 valueIncrement[0][1] = 10000;
             }
-            else if (value >= 5000) {
+            else if (value >= 5000 ) {
                 value -= 5000;
                 result.append("ↁ");
                 valueIncrement[1][0] += 1;
@@ -205,7 +206,7 @@ public class RomanNumberTranscoder<T> implements NumbersystemTransformable {
 
 	@Override
 	public String decode(TextReadable text) {
-		this.value = (T) text.getEntireString();
+		this.value = text.getEntireString();
 		long res = 0L;
 		StringBuffer input = new StringBuffer();
 		input.append(this.value);
@@ -289,10 +290,7 @@ public class RomanNumberTranscoder<T> implements NumbersystemTransformable {
 	public void setDestination(int base) {
 	}
 	private final long valueToLong() {
-        StringBuffer valueString = new StringBuffer();
-        valueString.append(this.value);
-        return Long.parseLong(valueString.toString());
+        return Long.parseLong(this.value);
     }
-
 }
 	
