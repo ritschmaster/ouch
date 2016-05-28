@@ -28,8 +28,10 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+
 import ouch.Readers.*;
 import ouch.transcoders.*;
+import ouch.transcoders.Compressions.LZ77Transcoder;
 import ouch.transcoders.Normal.MorseCodeTranscoder;
 import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.fun.*;
@@ -64,7 +66,7 @@ public class TextUI {
 
         } catch( CmdLineException e ) {
             System.err.println(e.getMessage());
-            System.err.println("java ouch [options...] [input-encoding]\n\nAvailable options:\n-i\tspecify input encoding\n-o\tspecify output encoding\n--file\tfilename (use the contents of the file as input)\n--metrics\tprint metrics\n\nAvailable encodings (for -i and -o):\n- plain (default for both)\n- mirrored\n- leetspeak\n- morse");
+            System.err.println("java ouch [options...] [input-encoding]\n\nAvailable options:\n-i\tspecify input encoding\n-o\tspecify output encoding\n--file\tfilename (use the contents of the file as input)\n--metrics\tprint metrics\n\nAvailable encodings (for -i and -o):\n- plain (default for both)\n- mirrored\n- leetspeak\n- morse\n- lz77");
             parser.printUsage(System.err);
             System.err.println();
             return;
@@ -80,6 +82,8 @@ public class TextUI {
                 input = (new LeetspeakTranscoder().decode(new StringReader(this.arguments.get(0))));;
             } else if (this.inputEncoding.equals("morse")) {
                 input = (new MorseCodeTranscoder().decode(new StringReader(this.arguments.get(0))));;
+            } else if (this.inputEncoding.equals("lz77")) {
+            	input = (new LZ77Transcoder().decode(new StringReader(this.arguments.get(0))));
             }
             reader = new StringReader(input);
         } else {
@@ -93,7 +97,9 @@ public class TextUI {
             transcoder = new LeetspeakTranscoder();
         } else if (this.outputEncoding.equals("morse")) {
             transcoder = new MorseCodeTranscoder();
-        }        
+        } else if (this.outputEncoding.equals("lz77")) {
+        	transcoder = new LZ77Transcoder();
+        }
         output = transcoder.encode(reader);
         
         if (this.metricsEnabled)

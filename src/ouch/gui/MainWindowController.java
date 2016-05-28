@@ -14,6 +14,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import ouch.Readers.StringReader;
 import ouch.transcoders.Transformable;
+import ouch.transcoders.Compressions.LZ77Transcoder;
 import ouch.transcoders.Normal.MorseCodeTranscoder;
 import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.NumberSystems.NumberSystemTranscoder;
@@ -56,6 +57,8 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 				case "Leetspeak":
 					transcoder = new LeetspeakTranscoder();
 					break;
+				case "LZ77":
+					transcoder = new LZ77Transcoder();
 				}
 				if (this.isInputListener)
 					this.setter.setTranscoderInput(transcoder);
