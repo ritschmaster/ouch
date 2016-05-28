@@ -32,6 +32,7 @@ import org.kohsuke.args4j.Option;
 import ouch.Readers.*;
 import ouch.transcoders.*;
 import ouch.transcoders.Compressions.LZ77Transcoder;
+import ouch.transcoders.Compressions.QuotedPrintableTranscoder;
 import ouch.transcoders.Normal.MorseCodeTranscoder;
 import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.fun.*;
@@ -84,7 +85,9 @@ public class TextUI {
                 input = (new MorseCodeTranscoder().decode(new StringReader(this.arguments.get(0))));;
             } else if (this.inputEncoding.equals("lz77")) {
             	input = (new LZ77Transcoder().decode(new StringReader(this.arguments.get(0))));
-            }
+            } else if (this.inputEncoding.equals("quoted")) {
+	        	input = (new QuotedPrintableTranscoder().decode(new StringReader(this.arguments.get(0))));
+	        }
             reader = new StringReader(input);
         } else {
             reader = new FileTextReader(this.filename);
@@ -99,6 +102,8 @@ public class TextUI {
             transcoder = new MorseCodeTranscoder();
         } else if (this.outputEncoding.equals("lz77")) {
         	transcoder = new LZ77Transcoder();
+        } else if (this.outputEncoding.equals("quoted")) {
+        	transcoder = new QuotedPrintableTranscoder();
         }
         output = transcoder.encode(reader);
         

@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import ouch.Readers.StringReader;
 import ouch.transcoders.Transformable;
 import ouch.transcoders.Compressions.LZ77Transcoder;
+import ouch.transcoders.Compressions.QuotedPrintableTranscoder;
 import ouch.transcoders.Normal.MorseCodeTranscoder;
 import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.NumberSystems.NumberSystemTranscoder;
@@ -56,6 +57,9 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 					break;
 				case "Leetspeak":
 					transcoder = new LeetspeakTranscoder();
+					break;
+				case "Quoted Printable":
+					transcoder = new QuotedPrintableTranscoder();
 					break;
 				case "LZ77":
 					transcoder = new LZ77Transcoder();
@@ -112,26 +116,26 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 	private void updateNumberSystemsOutput(String input, int base, int destBase) {
 		StringReader reader = new StringReader(input);
 		if (base != -100 && destBase != -100) {
-	        NumberSystemTranscoder<String> numTranscoder = new NumberSystemTranscoder<>();
+	        NumberSystemTranscoder numTranscoder = new NumberSystemTranscoder();
 	        numTranscoder.setSource(base);
 	        numTranscoder.setDestination(destBase);
 			this.NumberSystemOutput.setText(numTranscoder.encode(reader));
 	        this.NumberSystemsMetrics.setText(numTranscoder.getLastDiff().toString());
 		}
 		else if (destBase == -100){
-			NumberSystemTranscoder<String> numTranscoder = new NumberSystemTranscoder<>();
+			NumberSystemTranscoder numTranscoder = new NumberSystemTranscoder();
 	        numTranscoder.setSource(base);
 	        numTranscoder.setDestination(10);
-			RomanNumberTranscoder<String> romanTranscoder = new RomanNumberTranscoder<>();
+			RomanNumberTranscoder romanTranscoder = new RomanNumberTranscoder();
 			StringReader getNumConverResult = new StringReader(numTranscoder.encode(reader));
 			this.NumberSystemOutput.setText(romanTranscoder.encode(getNumConverResult));
 			this.NumberSystemsMetrics.setText(romanTranscoder.getLastDiff().toString());
 		}
 		else if (base == -100){
-			NumberSystemTranscoder<String> numTranscoder = new NumberSystemTranscoder<>();
+			NumberSystemTranscoder numTranscoder = new NumberSystemTranscoder();
 	        numTranscoder.setSource(10);
 	        numTranscoder.setDestination(destBase);
-			RomanNumberTranscoder<String> romanTranscoder = new RomanNumberTranscoder<>();
+			RomanNumberTranscoder romanTranscoder = new RomanNumberTranscoder();
 			StringReader getRomanNumber = new StringReader(romanTranscoder.decode(reader));
 			this.NumberSystemOutput.setText(numTranscoder.encode(getRomanNumber));
 			this.NumberSystemsMetrics.setText(romanTranscoder.getLastDiff().toString());
