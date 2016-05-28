@@ -148,6 +148,7 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 	            String text = EncodingsInput.getText();
 	            this.updateEncodingOutput(text);
 	        });
+			
 			// Number Systems
 			this.NumberSystemChoiceInput.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			    @Override
