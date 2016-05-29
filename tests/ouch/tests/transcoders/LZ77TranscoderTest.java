@@ -56,6 +56,7 @@ public class LZ77TranscoderTest {
 		for (String s : strings) {
 			LZ77Transcoder t = new LZ77Transcoder();
 			String s1 = t.encode(new StringReader(s));
+			s1 = s1.substring(12, 56);
 			String out = t.decode(new StringReader(s1));
 			assertEquals(s + FILE_SEPERATOR, out);
 		}
@@ -86,6 +87,17 @@ public class LZ77TranscoderTest {
 	}
 	
 	@Test
+	public void testEncodeDecodeUlm() {
+		String s = "In Ulm, um Ulm, und um Ulm herum.";
+		
+		LZ77Transcoder t = new LZ77Transcoder();
+		String s1 = t.encode(new StringReader(s));
+		s1 = s1.substring(12, 56);
+		String out = t.decode(new StringReader(s1));
+		assertEquals(s + FILE_SEPERATOR, out);
+	}
+	
+	@Test
 	public void testEncodeDecodeMediumFile() {
 		LZ77Transcoder t = new LZ77Transcoder();
 		FileTextReader rdr = new FileTextReader("tests/testfile");
@@ -93,6 +105,7 @@ public class LZ77TranscoderTest {
 		
 		String in = readCharsFromFile(226800, new FileTextReader("tests/testfile"));
 		String s1 = t.encode(rdr);
+		s1 = s1.substring(12, 56);
 		String out = t.decode(new StringReader(s1));
 
 		assertEquals(in.length()+1,  out.length());
@@ -106,8 +119,8 @@ public class LZ77TranscoderTest {
 
 		String in = readCharsFromFile(600,  new FileTextReader("tests/small_file"));
 		String s1 = t.encode(rdr);
-		String out = t.decode(new StringReader(s1));
-		
+		s1 = s1.substring(12, 56);
+		String out = t.decode(new StringReader(s1));		
 		assertEquals(in.length()+1,  out.length());
 		assertEquals(in.toString() + FILE_SEPERATOR, out);	
 
@@ -120,6 +133,7 @@ public class LZ77TranscoderTest {
 
 		String in = readCharsFromFile(1050000,  new FileTextReader("tests/1mb"));
 		String s1 = t.encode(rdr);
+		s1 = s1.substring(12, 56);
 		String out = t.decode(new StringReader(s1));
 		
 		assertEquals(in.length()+1,  out.length());
@@ -133,16 +147,6 @@ public class LZ77TranscoderTest {
 		FileTextReader rdr = new FileTextReader("tests/1mb");
 		t.encode(rdr);
 	}
-	
-	@Test
-	public void testEncodeTriple() {
-		
-	}
-	
-	@Test
-	public void testDecodeTriple() {
-		
-	}
-	
+
 
 }
