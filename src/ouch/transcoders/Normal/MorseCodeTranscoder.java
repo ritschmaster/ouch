@@ -36,6 +36,8 @@ public class MorseCodeTranscoder implements Transformable, EitherUpperOrLowerabl
 	private StringFormat encodeFormat;
 	private StringFormat decodeFormat;
 	
+	private SubstitutedMetrics lastDiff;
+	
 	public MorseCodeTranscoder() {
 		this(StringFormat.LOWER, StringFormat.LOWER);
 	}
@@ -95,7 +97,8 @@ public class MorseCodeTranscoder implements Transformable, EitherUpperOrLowerabl
 	@Override
 	public String encode(TextReadable text) {
 		String ret = "";
-
+		this.lastDiff = new SubstitutedMetrics();
+		
 		try {
 			byte[] textToEncode = null;
 			switch(this.encodeFormat) {
@@ -110,6 +113,7 @@ public class MorseCodeTranscoder implements Transformable, EitherUpperOrLowerabl
 			for (int i = 0; i < textToEncode.length; i++) {
 				char charToEncode = (char) (textToEncode[i] & 0xFF);
 				ret += MORSE_MAP.get(Character.toUpperCase(charToEncode));
+				this.lastDiff.increaseSubstitutedCharacterAmount();
 				if (i + 1 < textToEncode.length)
 					ret += " ";				
 			}
@@ -171,8 +175,7 @@ public class MorseCodeTranscoder implements Transformable, EitherUpperOrLowerabl
 
 	@Override
 	public Metricable getLastDiff() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.lastDiff;
 	}
 
 }

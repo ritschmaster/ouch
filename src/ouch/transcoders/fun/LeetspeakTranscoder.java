@@ -28,33 +28,34 @@ import java.util.Map.Entry;
 import ouch.Readers.TextReadable;
 import ouch.transcoders.EitherUpperOrLowerable;
 import ouch.transcoders.Transformable;
+import ouch.transcoders.Normal.SubstitutedMetrics;
 import ouch.transcoders.EitherUpperOrLowerable.StringFormat;
 import ouch.transcoders.Metricable;
 
 public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerable {	
-	static class LeetspeakMetrics implements Metricable {
-		public LeetspeakMetrics() {
-			this.substitutedCharactersAmount = 0;
-		}
-		
-		int substitutedCharactersAmount;
-		
-		public int getSubstitutedCharactersAmount() {
-			return this.substitutedCharactersAmount;
-		}
-		
-		public void increaseSubstitutedCharacterAmount() {
-			this.substitutedCharactersAmount++;
-		}
-		
-		public String toString() {
-			return "Substituted characters:" + "\t" + Integer.toString(this.substitutedCharactersAmount);
-		}
-	}
+//	static class LeetspeakMetrics implements Metricable {
+//		public LeetspeakMetrics() {
+//			this.substitutedCharactersAmount = 0;
+//		}
+//		
+//		int substitutedCharactersAmount;
+//		
+//		public int getSubstitutedCharactersAmount() {
+//			return this.substitutedCharactersAmount;
+//		}
+//		
+//		public void increaseSubstitutedCharacterAmount() {
+//			this.substitutedCharactersAmount++;
+//		}
+//		
+//		public String toString() {
+//			return "Substituted characters:" + "\t" + Integer.toString(this.substitutedCharactersAmount);
+//		}
+//	}
 	
 	private StringFormat encodeFormat;
 	private StringFormat decodeFormat;
-	private LeetspeakMetrics lastMetric = null;	
+	private SubstitutedMetrics lastMetric = null;	
 	
 	private static HashMap<Character, String> LEET_MAP;
 	
@@ -143,7 +144,7 @@ public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerabl
 	@Override
 	public String encode(TextReadable text) {
 		String ret = "";
-		this.lastMetric = new LeetspeakMetrics();		
+		this.lastMetric = new SubstitutedMetrics();		
 
 		try {
 			byte[] textToEncode = null;			
@@ -185,7 +186,7 @@ public class LeetspeakTranscoder implements Transformable, EitherUpperOrLowerabl
 		morseCodeUntilNow = "",
 		textToDecode = text.getEntireString();
 		
-		this.lastMetric = new LeetspeakMetrics();		
+		this.lastMetric = new SubstitutedMetrics();		
 					
 		for (int i = 0; i < textToDecode.length(); i++) {
 			morseCodeUntilNow += textToDecode.charAt(i);

@@ -24,6 +24,7 @@ package ouch.transcoders.fun;
 import ouch.Readers.TextReadable;
 import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
+import ouch.transcoders.Normal.SubstitutedMetrics;
 
 /**
  * @author Alexander Kopp, Richard Paul Bäck
@@ -32,28 +33,35 @@ import ouch.transcoders.Transformable;
  *
  */
 public class MirroredTranscoder implements Transformable {
-	static class MirroredMetrics implements Metricable {
-		public MirroredMetrics() {
-			
-		}		
-		public String toString() {
-			return "";
-		}
+    static class MirroredMetris extends SubstitutedMetrics {
+	public void setSubstitutedCharacterAmount(int amount) {
+            this.substitutedCharactersAmount = amount;
 	}
+
+        public String toString() {
+            return "Mirrored characters:" + "\t" 
+                + Integer.toString(this.substitutedCharactersAmount);
+        }
+    }
 	
-	@Override
-	public String encode(TextReadable text) {
-		return new StringBuilder(text.getEntireString().toString()).reverse().toString();		
-	}
+    private MirroredMetris lastDiff;
+	
+    @Override
+    public String encode(TextReadable text) {
+        String input = text.getEntireString();
+        this.lastDiff = new MirroredMetris();
+        this.lastDiff.setSubstitutedCharacterAmount(input.length());
+        return new StringBuilder(input.toString()).reverse().toString();		
+    }
 
-	@Override
-	public String decode(TextReadable text) {
-		return encode(text);
-	}
+    @Override
+    public String decode(TextReadable text) {
+        return encode(text);
+    }
 
-	@Override
-	public Metricable getLastDiff() {
-		return (Metricable) (new MirroredMetrics());
-	}
+    @Override
+    public Metricable getLastDiff() {
+        return this.lastDiff;
+    }
 
 }

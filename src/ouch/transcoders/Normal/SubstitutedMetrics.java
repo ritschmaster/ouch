@@ -19,37 +19,26 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.gui;
+package ouch.transcoders.Normal;
 
-import java.io.IOException;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import ouch.Readers.FileTextReader;
+import ouch.transcoders.Metricable;
 
-public class OUCHApplication extends Application {
+public class SubstitutedMetrics implements Metricable {
+	protected int substitutedCharactersAmount;
 	
-
-	@Override
-	public void start(Stage primaryStage) {
-		primaryStage.setTitle("OUCH GUI");
-		System.out.println(System.getProperty("user.dir"));		
-        
-		Pane myPane = null;
-		try {			
-			// myPane = (Pane) FXMLLoader.load(getClass().getClassLoader().getResource(System.getProperty("user.dir") + "/src/main/resources/main_window.fxml"));
-			myPane = (Pane) FXMLLoader.load(getClass().getClassLoader().getResource("main_window.fxml"));			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-       Scene myScene = new Scene(myPane);
-       primaryStage.setScene(myScene);
-       primaryStage.show();
+	public SubstitutedMetrics() {
+		this.substitutedCharactersAmount = 0;
 	}
-
-	public static void main(String[] args) {
-		launch(args);
+	
+	public int getSubstitutedCharactersAmount() {
+		return this.substitutedCharactersAmount;
+	}
+	
+	public void increaseSubstitutedCharacterAmount() {
+		this.substitutedCharactersAmount++;
+	}
+		
+	public String toString() {
+		return "Substituted characters:" + "\t" + Integer.toString(this.substitutedCharactersAmount);
 	}
 }
