@@ -34,6 +34,7 @@ import ouch.Readers.TextReadable;
 import ouch.transcoders.tools.FixedSizeStack;
 import ouch.transcoders.Metricable;
 import ouch.transcoders.Transformable;
+
 import static ouch.transcoders.tools.LZ77Globals.*;
 
 public class LZ77Transcoder implements Transformable {
@@ -46,9 +47,9 @@ public class LZ77Transcoder implements Transformable {
 	public LZ77Transcoder() {
 		this.outString = new StringBuilder();
 		this.lookAheadBuffer = new LinkedList<Character>();
+		this.metrics = new LZ77Metrics();
 		this.endReached = false;
 		this.isFile = false;
-		this.metrics = new LZ77Metrics();
 	}
 
 	@Override
@@ -73,7 +74,10 @@ public class LZ77Transcoder implements Transformable {
 			path =  System.getProperty("user.home") + File.separator + "LZ77_" + System.currentTimeMillis();
 		}
 		//end file handling
+		
+		
 		refillLookAheadBuffer(LOOKAHEAD_BUFFER_SIZE - lookAheadBuffer.size(), text);
+		
 		FixedSizeStack<Character> searchBuffer = new FixedSizeStack<Character>(SEARCH_BUFFER_SIZE);		
 		
 		while (lookAheadBuffer.size() > 0) {
@@ -133,7 +137,7 @@ public class LZ77Transcoder implements Transformable {
 			return "writing file failed, try again";
 		}
 		
-		return "saved under " + path + "_output\n\n" + new String(outString);
+		return "saved under " + path + "_output\n\nOutput String:\n" + new String(outString);
 	}
 		
 	private void refillLookAheadBuffer(int amount, TextReadable text) {
@@ -201,7 +205,11 @@ public class LZ77Transcoder implements Transformable {
 				int endIndex = beginIndex + t.length;
 				
 				for(; beginIndex < endIndex; beginIndex++) {
-					outString.append(outString.charAt(beginIndex));
+					try {
+						outString.append(outString.charAt(beginIndex));
+					} catch (StringIndexOutOfBoundsException e) {
+						return "Error when decoding, probably invalid or broken file";
+					}
 				}					
 			}
 			outString.append(t.followChar);
