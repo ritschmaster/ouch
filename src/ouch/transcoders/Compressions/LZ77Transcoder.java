@@ -52,6 +52,10 @@ public class LZ77Transcoder implements Transformable {
 		this.isFile = false;
 	}
 
+	/*
+	 *(non-Javadoc)
+	 * @see ouch.transcoders.Transformable#encode(ouch.Readers.TextReadable)
+	 */
 	@Override
 	public String encode(TextReadable text) {
 		String path = null;
@@ -74,7 +78,6 @@ public class LZ77Transcoder implements Transformable {
 			path =  System.getProperty("user.home") + File.separator + "LZ77_" + System.currentTimeMillis();
 		}
 		//end file handling
-		
 		
 		refillLookAheadBuffer(LOOKAHEAD_BUFFER_SIZE - lookAheadBuffer.size(), text);
 		
@@ -139,7 +142,14 @@ public class LZ77Transcoder implements Transformable {
 		
 		return "saved under " + path + "_output\n\nOutput String:\n" + new String(outString);
 	}
-		
+	
+	/**
+	 * @param amount - The amount of chars you want
+	 * @param text - given reader
+	 *
+	 * 	Fills the look ahead buffer with the next amount chars. If there are fewer available then 
+	 *	requested the buffer is filled with the rest. If none available returns null
+	 */
 	private void refillLookAheadBuffer(int amount, TextReadable text) {
 		char[] chars = text.getNextChars(amount);
 		int i = 0;
@@ -163,6 +173,10 @@ public class LZ77Transcoder implements Transformable {
 		metrics.increaseSizeBefore(i);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see ouch.transcoders.Transformable#decode(ouch.Readers.TextReadable)
+	 */
 	@Override
 	public String decode(TextReadable text) {
 		metrics.reset();
@@ -219,7 +233,10 @@ public class LZ77Transcoder implements Transformable {
 		return new String(outString);
 	}
 	
-	
+	/**
+	 * @param text - given reader
+	 * @returns File if given text contains a valid path to a file, else retruns null.
+	 */
 	private File getFile(TextReadable text) {
 		if (text instanceof FileTextReader) {
 			isFile = true;
@@ -313,6 +330,9 @@ public class LZ77Transcoder implements Transformable {
 		}
 	}
 	
+	/*
+	 * Implementation of Metrics, outputs No of Chars of source- and output files, and compression percentage
+	 */
 	private static class LZ77Metrics implements Metricable {
 		
 		private String mode;
