@@ -210,19 +210,19 @@ public class MainWindowController implements Initializable, TranscoderSetable {
 		switch(choiceBoxValue) {
 		    case "Plain":
 				break;
-			case "2 [Binär]":
+			case "2 [Binary]":
 				ret = 2;
 				break;
-			case "8 [Oktal]":
+			case "8 [Octal]":
 				ret = 8;
 				break;
-			case "10 [Dezimal]":
+			case "10 [Decimal]":
 				ret = 10;
 				break;
-			case "12 [Duodezimal]":
+			case "12 [Duodecimal]":
 				ret = 12;
 				break;
-			case "16 [Hexadezimal]":
+			case "16 [Hexadecimal]":
 				ret = 16;
 				break;
 			case "Roman Numbers":

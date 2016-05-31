@@ -67,21 +67,21 @@
                                 <ChoiceBox id="" fx:id="NumberSystemChoiceInput" prefWidth="292.0" value = "2 [Binär]">
                                   <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                      <String fx:value="2 [Binär]" />
+                                      <String fx:value="2 [Binary]" />
                                       <String fx:value="3" />
                                       <String fx:value="4" />
                                       <String fx:value="5" />
                                       <String fx:value="6" />
                                       <String fx:value="7" />
-                                      <String fx:value="8 [Oktal]" />
+                                      <String fx:value="8 [Octal]" />
                                       <String fx:value="9" />
-                                      <String fx:value="10 [Dezimal]" />
+                                      <String fx:value="10 [Decimal]" />
                                       <String fx:value="11" />
-                                      <String fx:value="12 [Duodezimal]" />
+                                      <String fx:value="12 [Duodecimal]" />
                                       <String fx:value="13" />
                                       <String fx:value="14" />
                                       <String fx:value="15" />
-                                      <String fx:value="16 [Hexadezimal]" />
+                                      <String fx:value="16 [Hexadecimal]" />
                                       <Separator />
                                       <String fx:value="Roman Numbers" />
                                     </FXCollections>
@@ -104,21 +104,21 @@
                                 <ChoiceBox id="NumberSystemOutput" fx:id="NumberSystemChoiceOutput" prefWidth="292.0" value = "10 [Dezimal]">
                                   <items>
                                     <FXCollections fx:factory="observableArrayList">
-                                      <String fx:value="2 [Binär]" />
+                                      <String fx:value="2 [Binary]" />
                                       <String fx:value="3" />
                                       <String fx:value="4" />
                                       <String fx:value="5" />
                                       <String fx:value="6" />
                                       <String fx:value="7" />
-                                      <String fx:value="8 [Oktal]" />
+                                      <String fx:value="8 [Octal]" />
                                       <String fx:value="9" />
-                                      <String fx:value="10 [Dezimal]" />
+                                      <String fx:value="10 [Decimal]" />
                                       <String fx:value="11" />
-                                      <String fx:value="12 [Duodezimal]" />
+                                      <String fx:value="12 [Duodecimal]" />
                                       <String fx:value="13" />
                                       <String fx:value="14" />
                                       <String fx:value="15" />
-                                      <String fx:value="16 [Hexadezimal]" />
+                                      <String fx:value="16 [Hexadecimal]" />
                                       <Separator />
                                       <String fx:value="Roman Numbers" />
                                     </FXCollections>

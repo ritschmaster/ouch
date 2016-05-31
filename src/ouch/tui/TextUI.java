@@ -36,6 +36,7 @@ import ouch.transcoders.Compressions.QuotedPrintableTranscoder;
 import ouch.transcoders.Normal.MorseCodeTranscoder;
 import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.fun.*;
+import ouch.transcoders.NumberSystems.*;
 
 public class TextUI {
     private static final String FILE_NOT_SUPPLIED = "/missing";
@@ -45,6 +46,12 @@ public class TextUI {
     
     @Option(name="-o")
     private String outputEncoding = "plain";
+
+    @Option(name="-s")
+    private String inputNumberSystem = "10";
+
+    @Option(name="-d")
+    private String outputNumberSystem = "10";
 
     @Option(name="--file")
     private String filename = FILE_NOT_SUPPLIED;
@@ -67,7 +74,28 @@ public class TextUI {
 
         } catch( CmdLineException e ) {
             System.err.println(e.getMessage());
-            System.err.println("java ouch [options...] [input-encoding]\n\nAvailable options:\n-i\tspecify input encoding\n-o\tspecify output encoding\n--file\tfilename (use the contents of the file as input)\n--metrics\tprint metrics\n\nAvailable encodings (for -i and -o):\n- plain (default for both)\n- mirrored\n- leetspeak\n- morse\n- lz77");
+            System.err.println("java ouch [options...] [input-encoding]\n"
+                               + "\n"
+                               + "Available options:\n"
+                               + "-i\tspecify input encoding\n"
+                               + "-o\tspecify output encoding\n"
+                               + "--file\tfilename (use the contents of the file as input)\n"
+                               + "--metrics\tprint metrics\n"
+                               + "\n"
+                               + "Available encodings (for -i and -o):\n"
+                               + "\t- plain (default for both)\n"
+                               + "\t- mirrored\n"
+                               + "\t- leetspeak\n"
+                               + "\t- morse\n"
+                               + "\t- lz77\n"
+                               + "\t- quoted\n"
+                               + "\n"
+                               + "Available number systems (use -s and -d)"
+                               + "\t- An arbitary Integer to describe the base of a number system\n"
+                               + "\t- roman\n"
+                               + "\n"
+                               + "PLEASE DO NOT MIX ENCODINGS AND NUMBER SYSTEMS. ONLY USE EITHER ONE."
+                               + "\n");
             parser.printUsage(System.err);
             System.err.println();
             return;
@@ -75,24 +103,38 @@ public class TextUI {
 
         TextReadable reader;
         String output = "";
-        if (this.filename.equals(FILE_NOT_SUPPLIED)) {
-            String input = this.arguments.get(0);            
-            if (this.inputEncoding.equals("mirrored")) {
-                input = (new MirroredTranscoder().decode(new StringReader(this.arguments.get(0))));;
-            } else if (this.inputEncoding.equals("leetspeak")) {
-                input = (new LeetspeakTranscoder().decode(new StringReader(this.arguments.get(0))));;
-            } else if (this.inputEncoding.equals("morse")) {
-                input = (new MorseCodeTranscoder().decode(new StringReader(this.arguments.get(0))));;
-            } else if (this.inputEncoding.equals("lz77")) {
-            	input = (new LZ77Transcoder().decode(new StringReader(this.arguments.get(0))));
-            } else if (this.inputEncoding.equals("quoted")) {
-	        	input = (new QuotedPrintableTranscoder().decode(new StringReader(this.arguments.get(0))));
-	        }
-            reader = new StringReader(input);
-        } else {
-            reader = new FileTextReader(this.filename);
+        String inputStringPlain = "";
+        TextReadable inputReader = null;
+        
+        /** Decoding of the given input text */
+        if (this.filename.equals(FILE_NOT_SUPPLIED))
+        	inputReader = new StringReader(this.arguments.get(0));
+        else 
+        	inputReader = new FileTextReader(this.filename);
+            
+        int inputBase;
+        if (this.inputEncoding.equals("mirrored")) {
+            inputStringPlain = (new MirroredTranscoder().decode(inputReader));
+        } else if (this.inputEncoding.equals("leetspeak")) {
+            inputStringPlain = (new LeetspeakTranscoder().decode(inputReader));
+        } else if (this.inputEncoding.equals("morse")) {
+            inputStringPlain = (new MorseCodeTranscoder().decode(inputReader));
+        } else if (this.inputEncoding.equals("lz77")) {
+        	inputStringPlain = (new LZ77Transcoder().decode(inputReader));
+        } else if (this.inputEncoding.equals("quoted")) {
+        	inputStringPlain = (new QuotedPrintableTranscoder().decode(inputReader));
+        } else if (this.inputNumberSystem.equals("roman")) {
+        	inputStringPlain = (new RomanNumberTranscoder().decode(inputReader));  
+        } else if ((inputBase = Integer.parseInt(this.inputNumberSystem)) > 0) {
+        	NumberSystemTranscoder numTranscoder = new NumberSystemTranscoder();
+	        numTranscoder.setSource(inputBase);
+	        numTranscoder.setDestination(10);
+            inputStringPlain  = numTranscoder.decode(inputReader);
         }
+        reader = new StringReader(inputStringPlain);
 
+        /** Encoding of the given input text */ 
+        int outputBase;
         Transformable transcoder = new PlainTranscoder();
         if (this.outputEncoding.equals("mirrored")) {
             transcoder = new MirroredTranscoder();
@@ -104,6 +146,13 @@ public class TextUI {
         	transcoder = new LZ77Transcoder();
         } else if (this.outputEncoding.equals("quoted")) {
         	transcoder = new QuotedPrintableTranscoder();
+        } else if (this.outputNumberSystem.equals("roman")) {
+        	transcoder = new RomanNumberTranscoder();
+        } else if ((outputBase = Integer.parseInt(this.outputNumberSystem)) > 0) {
+        	NumberSystemTranscoder numTranscoder = new NumberSystemTranscoder();
+	        numTranscoder.setSource(10);
+	        numTranscoder.setDestination(outputBase);
+	        transcoder = numTranscoder;
         }
         output = transcoder.encode(reader);
         
