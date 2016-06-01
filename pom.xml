@@ -63,7 +63,12 @@
               <goal>jdeb</goal>
             </goals>
             <configuration>
-              <!-- <signPackage>true</signPackage> -->
+              <signPackage>true</signPackage>
+              <signMethod>dpkg-sig</signMethod>
+              <signRole>builder</signRole>
+              <keyring>${user.home}/.gnupg/secring.gpg</keyring>
+              <key></key>
+              <passphrase></passphrase>
               <verbose>true</verbose>
               <controlDir>${basedir}/src/deb/control</controlDir>
               <dataSet>

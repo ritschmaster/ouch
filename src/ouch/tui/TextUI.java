@@ -42,16 +42,16 @@ public class TextUI {
     private static final String FILE_NOT_SUPPLIED = "/missing";
     
     @Option(name="-i")
-    private String inputEncoding = "plain";
+    private String inputEncoding = "";
     
     @Option(name="-o")
-    private String outputEncoding = "plain";
+    private String outputEncoding = "";
 
     @Option(name="-s")
-    private String inputNumberSystem = "10";
+    private String inputNumberSystem = "";
 
     @Option(name="-d")
-    private String outputNumberSystem = "10";
+    private String outputNumberSystem = "";
 
     @Option(name="--file")
     private String filename = FILE_NOT_SUPPLIED;
@@ -85,14 +85,14 @@ public class TextUI {
                                + "--metrics\tprint metrics\n"
                                + "\n"
                                + "Available encodings (for -i and -o):\n"
-                               + "- plain (default for both)\n"
+                               + "- plain\n"
                                + "- mirrored\n"
                                + "- leetspeak\n"
                                + "- morse\n"
                                + "- lz77\n"
                                + "- quoted\n"
                                + "\n"
-                               + "Available number systems (use -s and -d)"
+                               + "Available number systems (use -s and -d)\n"
                                + "- An arbitary Integer to describe the base of a number system\n"
                                + "- roman\n"
                                + "\n"
@@ -107,15 +107,18 @@ public class TextUI {
         String output = "";
         String inputStringPlain = "";
         TextReadable inputReader = null;
-        
+
         /** Decoding of the given input text */
         if (this.filename.equals(FILE_NOT_SUPPLIED))
         	inputReader = new StringReader(this.arguments.get(0));
-        else 
+        else
         	inputReader = new FileTextReader(this.filename);
-            
+
         int inputBase;
-        if (this.inputEncoding.equals("mirrored")) {
+        if (this.inputEncoding.equals("plain")) {
+            inputStringPlain = (new PlainTranscoder().decode(inputReader));
+        }
+        else if (this.inputEncoding.equals("mirrored")) {
             inputStringPlain = (new MirroredTranscoder().decode(inputReader));
         } else if (this.inputEncoding.equals("leetspeak")) {
             inputStringPlain = (new LeetspeakTranscoder().decode(inputReader));
@@ -137,8 +140,11 @@ public class TextUI {
 
         /** Encoding of the given input text */ 
         int outputBase;
-        Transformable transcoder = new PlainTranscoder();
-        if (this.outputEncoding.equals("mirrored")) {
+        Transformable transcoder = null;
+        if (this.outputEncoding.equals("plain")) {
+            transcoder = new PlainTranscoder();
+        }
+        else if (this.outputEncoding.equals("mirrored")) {
             transcoder = new MirroredTranscoder();
         } else if (this.outputEncoding.equals("leetspeak")) {
             transcoder = new LeetspeakTranscoder();

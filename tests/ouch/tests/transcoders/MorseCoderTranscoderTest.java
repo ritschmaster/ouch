@@ -1,4 +1,4 @@
-/************************************************************************
+ /************************************************************************
  * Copyright (C) 2016 Richard Paul Bäck <richard.baeck@free-your-pc.com>
  * 					  Dominik Koller <kollerdominik@icloud.com>
  * 					  Alexander Kopp <alexander.kopp@gmx.at>
