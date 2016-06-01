@@ -67,7 +67,7 @@
               <signMethod>dpkg-sig</signMethod>
               <signRole>builder</signRole>
               <keyring>${user.home}/.gnupg/secring.gpg</keyring>
-              <key></key>
+              <key>BB1BF70A</key>
               <passphrase></passphrase>
               <verbose>true</verbose>
               <controlDir>${basedir}/src/deb/control</controlDir>
