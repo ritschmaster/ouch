@@ -21,7 +21,7 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.tui;
+package ouch.cli;
 
 /**
  * @author Alexander Kopp, Dominik Koller, Zhe Wu, Richard Paul Bäck
@@ -33,7 +33,7 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-    	new TextUI().doMain(args);
+    	new CLI().doMain(args);
     }
 
 }

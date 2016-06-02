@@ -19,7 +19,7 @@
  * along with OUCH. If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-package ouch.tui;
+package ouch.cli;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import ouch.transcoders.Normal.PlainTranscoder;
 import ouch.transcoders.fun.*;
 import ouch.transcoders.NumberSystems.*;
 
-public class TextUI {
+public class CLI {
     private static final String FILE_NOT_SUPPLIED = "/missing";
     
     @Option(name="-i")

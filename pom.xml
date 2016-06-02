@@ -41,7 +41,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>ouch.tui.Main</mainClass>
+              <mainClass>ouch.cli.Main</mainClass>
               <!-- <mainClass>ouch.gui.Main</mainClass> -->
             </manifest>
             <manifestEntries>
@@ -67,7 +67,7 @@
               <signMethod>dpkg-sig</signMethod>
               <signRole>builder</signRole>
               <keyring>${user.home}/.gnupg/secring.gpg</keyring>
-              <key>BB1BF70A</key>
+              <key></key>
               <passphrase></passphrase>
               <verbose>true</verbose>
               <controlDir>${basedir}/src/deb/control</controlDir>
@@ -99,7 +99,7 @@
 
   <profiles>
     <profile>
-      <id>tui</id>
+      <id>cli</id>
       <build>
         <plugins>
           <plugin>
@@ -113,7 +113,7 @@
                   <goal>java</goal>
                 </goals>
                 <configuration>
-                  <mainClass>ouch.tui.Main</mainClass>
+                  <mainClass>ouch.cli.Main</mainClass>
                   <arguments>
                     <argument>-o</argument>
                     <argument>mirrored</argument>
