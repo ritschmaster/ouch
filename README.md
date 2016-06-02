@@ -9,9 +9,11 @@ If you have installed OUCH you can use it with the following commands:
 ```bash
 ouch -h # display help
 ouch -i plain -o morse "hello world"
+ouch -s 10 -d 16 "12345678"
+ouch -s 10 -d 2 --metrics "12345678"
 ```
 
-## The OUCH GUI 
+## The OUCH GUI
 The OUCH GUI is currently only available with the Maven task (please
 see Testing).
 
