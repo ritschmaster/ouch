@@ -35,11 +35,9 @@ public class OUCHApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("OUCH GUI");
-		System.out.println(System.getProperty("user.dir"));		
-        
+
 		Pane myPane = null;
-		try {			
-			// myPane = (Pane) FXMLLoader.load(getClass().getClassLoader().getResource(System.getProperty("user.dir") + "/src/main/resources/main_window.fxml"));
+		try {
 			myPane = (Pane) FXMLLoader.load(getClass().getClassLoader().getResource("main_window.fxml"));			
 		} catch (IOException e) {
 			e.printStackTrace();

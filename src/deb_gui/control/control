@@ -1,10 +1,10 @@
-Package: [[name]]
+Package: [[name]]-gui
 Version: [[version]]
 Section: misc
 Priority: optional
 Depends: jdk (>= 1.8)
 Architecture: all
 Maintainer: Richard Paul Bäck <richard.baeck@free-your-pc.com>
-Depends: default-jre | java8-runtime | args4j (>= 2.0.30)
+Depends: default-jre | java8-runtime | openjfx (>= 8u60-b27-4~bpo8+1)
 Description: A tool to convert between many different number systems and encodings.
 Distribution: stable
