@@ -69,7 +69,8 @@
                   <goal>jdeb</goal>
                 </goals>
                 <configuration>
-                  <deb>target/${artifactId}-gui_${version}.deb</deb>
+                  <deb>target/${artifactId}-gui_${version}_all.deb</deb>
+                  <changesOut>target/${artifactId}-gui_${version}_all.changes</changesOut>
                   <signPackage>true</signPackage>
                   <signMethod>dpkg-sig</signMethod>
                   <signRole>builder</signRole>
